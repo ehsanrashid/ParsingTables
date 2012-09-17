@@ -5,22 +5,14 @@ namespace Parser
 
     public abstract class Entity : IEntity, ICloneable
     {
-        protected String _title;
-
-        protected Entity(String title)
+        protected Entity(String title = default(String))
         {
-            _title = title;
+            if (default(String) == title) title = String.Empty;
+            Title = title;
         }
 
-        protected Entity()
-            : this(String.Empty)
-        {
-        }
-
-        protected Entity(Entity entity)
-            : this(entity._title)
-        {
-        }
+        protected Entity(IEntity entity)
+            : this(entity.Title) { }
 
         #region ICloneable Members
 
@@ -35,12 +27,7 @@ namespace Parser
 
         #region IEntity Members
 
-        public String Title
-        {
-            get { return _title; }
-            //protected 
-            set { _title = value; }
-        }
+        public string Title { get; set; }
 
         #endregion
 
@@ -68,7 +55,7 @@ namespace Parser
 
         public override String ToString()
         {
-            return _title;
+            return Title;
         }
 
         #endregion
@@ -77,12 +64,12 @@ namespace Parser
 
         public static EntityCollection<Entity> operator +(Entity entity1, Entity entity2)
         {
-            return new EntityCollection<Entity>(new[] {entity1, entity2});
+            return new EntityCollection<Entity>(new[] { entity1, entity2 });
         }
 
         public static implicit operator EntityCollection<Entity>(Entity entity)
         {
-            return new EntityCollection<Entity>(new[] {entity});
+            return new EntityCollection<Entity>(new[] { entity });
         }
 
         public static bool operator ==(Entity entity1, Entity entity2)
@@ -90,7 +77,7 @@ namespace Parser
             if (ReferenceEquals(entity1, entity2)) return true;
             if (ReferenceEquals(null, entity1) || ReferenceEquals(null, entity2)) return false;
             // Terminal or NonTerminal
-            return (entity1.GetType() == entity2.GetType()) && (entity1._title == entity2._title);
+            return (entity1.GetType() == entity2.GetType()) && (entity1.Title == entity2.Title);
         }
 
         public static bool operator !=(Entity entity1, Entity entity2)
