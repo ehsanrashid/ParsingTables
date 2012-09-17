@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Parser.Terminal" Collapsed="true">
+    <Position X="5.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Terminal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.Closure" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEJhAAAAAIAQBEAEiAAABAQAAAAGAIAECAEACAREAjA=</HashCode>
+      <FileName>Closure.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Parser.SLRClosure" Collapsed="true">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAEBA=</HashCode>
+      <FileName>Closure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.CLRClosure" Collapsed="true">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAABAAABAAABA=</HashCode>
+      <FileName>Closure.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.ClosureCollection" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEwAECAAAAAAAAAIAAgAgACAQAAyA=</HashCode>
+      <FileName>ClosureCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Parser.Entity" Collapsed="true">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAIAAAEAMwAAAAAAAAAAAAIAAAAAAAAQAAiA=</HashCode>
+      <FileName>Entity.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Parser.EntityCollection&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAAAEwAECAAAAAAAAQIAAAAkAAAQAAiA=</HashCode>
+      <FileName>EntityCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Parser.GotoEntry" Collapsed="true">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAgBAEgAAAAAAAAAAAAIAAAAAAACQAQqA=</HashCode>
+      <FileName>GotoEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.Grammar" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAQAAAAAAABQEEwAECAAAkAAAAAIAAAAEACAUUAiE=</HashCode>
+      <FileName>Grammar.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Parser.NonTerminal" Collapsed="true">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NonTerminal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.Parser" Collapsed="true">
+    <Position X="6.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAgAAAAAAAAUAAAAgAAAEIAAAACIAAAAAAAAABQgAA=</HashCode>
+      <FileName>Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.SLRParser" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AC4AACAAAAAAQAAAADAAAAAAAAAAAIgAAAAAAAAAAAg=</HashCode>
+      <FileName>Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.CLRParser" Collapsed="true">
+    <Position X="7.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AC4AACAAAAAAQAAAADAAAAAAAAAAAIgAAAAAAAAAAAg=</HashCode>
+      <FileName>Parser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.Production" Collapsed="true">
+    <Position X="2.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAABAAAAEgAAAAAQAAAAQAIAEAIAAAAQAAjA=</HashCode>
+      <FileName>Production.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Parser.SLRProduction" Collapsed="true">
+    <Position X="2.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Production.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Parser.CLRProduction" Collapsed="true">
+    <Position X="2.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAEAAACAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Production.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Parser.IEntity" Collapsed="true">
+    <Position X="10" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Parser.ISet" Collapsed="true">
+    <Position X="11.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISet.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>
