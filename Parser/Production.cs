@@ -12,7 +12,6 @@ namespace Parser
         // RightHand Side (Product)
         public EntityCollection<Entity> Product { get; private set; }
 
-        #region Constructors
 
         public Production(NonTerminal producer, EntityCollection<Entity> product)
         {
@@ -20,13 +19,13 @@ namespace Parser
             Product = product;
         }
 
-        public Production(NonTerminal producer) : this(producer, default(EntityCollection<Entity>)) {}
+        public Production(NonTerminal producer) : this(producer, default(EntityCollection<Entity>)) { }
 
-        public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product) {}
+        public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product) { }
 
-        public Production() : this(new NonTerminal(), new EntityCollection<Entity>()) {}
+        public Production() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
 
-        #endregion
+
 
         public int Count
         {
@@ -35,52 +34,27 @@ namespace Parser
 
         #region ICloneable Members
 
-        public Object Clone()
-        {
-            return new Production
-                (
-                new NonTerminal(Producer),
-                new EntityCollection<Entity>(Product)
-                );
-        }
+        public Object Clone() { return new Production(new NonTerminal(Producer), new EntityCollection<Entity>(Product)); }
 
         #endregion
 
-        public bool Equals(Production production)
-        {
-            return (this == production);
-        }
+        public bool Equals(Production production) { return (this == production); }
 
-        public bool NotEquals(Production production)
-        {
-            return !Equals(production); //(this != production);
-        }
+        public bool NotEquals(Production production) { return !Equals(production); } //(this != production);
 
         #region IEnumerable Members
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ((IEnumerable) Product).GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() { return ((IEnumerable) Product).GetEnumerator(); }
 
         #endregion
 
         #region Overrided Methods
 
-        public override bool Equals(Object obj)
-        {
-            return (obj is Production) ? Equals(obj as Production) : base.Equals(obj);
-        }
+        public override bool Equals(Object obj) { return (obj is Production) ? Equals(obj as Production) : base.Equals(obj); }
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode() ^ base.GetHashCode();
-        }
+        public override int GetHashCode() { return ToString().GetHashCode() ^ base.GetHashCode(); }
 
-        public override String ToString()
-        {
-            return String.Format("{0} --> {1}", Producer, Product);
-        }
+        public override String ToString() { return String.Format("{0} --> {1}", Producer, Product); }
 
         #endregion
 
@@ -95,10 +69,7 @@ namespace Parser
                 && (production1.Product == production2.Product);
         }
 
-        public static bool operator !=(Production production1, Production production2)
-        {
-            return !(production1 == production2);
-        }
+        public static bool operator !=(Production production1, Production production2) { return !(production1 == production2); }
 
         #endregion
     }
@@ -108,15 +79,12 @@ namespace Parser
         protected int _positionDot;
 
         public SLRProduction(NonTerminal producer, EntityCollection<Entity> product, int posDot)
-            : base(producer, product)
-        {
-            DotPosition = posDot;
-        }
+            : base(producer, product) { DotPosition = posDot; }
 
         public SLRProduction(NonTerminal producer, EntityCollection<Entity> product)
-            : this(producer, product, default(int)) {}
+            : this(producer, product, default(int)) { }
 
-        public SLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) {}
+        public SLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
 
         public int DotPosition
         {
@@ -128,15 +96,9 @@ namespace Parser
             }
         }
 
-        public bool Equals(SLRProduction prod)
-        {
-            return base.Equals(prod) && (_positionDot == prod.DotPosition);
-        }
+        public bool Equals(SLRProduction prod) { return base.Equals(prod) && (_positionDot == prod.DotPosition); }
 
-        public bool NotEquals(SLRProduction prod)
-        {
-            return !Equals(prod);
-        }
+        public bool NotEquals(SLRProduction prod) { return !Equals(prod); }
 
         public override String ToString()
         {
@@ -153,47 +115,41 @@ namespace Parser
 
     public class CLRProduction : SLRProduction
     {
-        private readonly EntityCollection<Terminal> _lookAheads;
+        readonly EntityCollection<Terminal> _lookAheads;
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol, int posDot,
                              EntityCollection<Terminal> lookAheads)
             : base(nonTerm, entityCol, posDot)
         {
-            if (lookAheads != default(EntityCollection<Terminal>))
-            {
+            if (default(EntityCollection<Terminal>) != lookAheads)
                 foreach (var terminal in lookAheads)
                 {
                     if (null != terminal) continue;
+
                     _lookAheads = new EntityCollection<Terminal>((EntityCollection<Terminal>) ((Terminal) "$"));
                     return;
                 }
-            }
 
             _lookAheads = lookAheads;
         }
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol,
-                             EntityCollection<Terminal> lookAheads) : this(nonTerm, entityCol, default(int), lookAheads) {}
+                             EntityCollection<Terminal> lookAheads)
+            : this(nonTerm, entityCol, default(int), lookAheads) { }
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol)
-            : this(nonTerm, entityCol, default(EntityCollection<Terminal>)) {}
+            : this(nonTerm, entityCol, default(EntityCollection<Terminal>)) { }
 
-        public CLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) {}
+        public CLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
 
         public EntityCollection<Terminal> LookAheads
         {
             get { return _lookAheads; }
         }
 
-        public bool Equals(CLRProduction prod)
-        {
-            return base.Equals(prod) && (_lookAheads == prod.LookAheads);
-        }
+        public bool Equals(CLRProduction prod) { return base.Equals(prod) && (_lookAheads == prod.LookAheads); }
 
-        public bool NotEquals(CLRProduction prod)
-        {
-            return !Equals(prod);
-        }
+        public bool NotEquals(CLRProduction prod) { return !Equals(prod); }
 
         public override String ToString()
         {
@@ -205,10 +161,11 @@ namespace Parser
             {
                 if (first) first = false;
                 else sb.Append(" | "); // Entity Sep
+                
                 sb.Append(terminal);
             }
 
-            return String.Format("{0}{1}", base.ToString(), sb);
+            return String.Concat(base.ToString(), sb);
         }
     }
 }

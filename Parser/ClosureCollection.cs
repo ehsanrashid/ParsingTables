@@ -9,13 +9,13 @@ namespace Parser
     {
         #region Constructors
 
-        public ClosureCollection() {}
+        public ClosureCollection() { }
 
         public ClosureCollection(IList<Closure> list)
-            : base(list) {}
+            : base(list) { }
 
         public ClosureCollection(ClosureCollection closureCol)
-            : base(closureCol.Items) {}
+            : base(closureCol.Items) { }
 
         #endregion
 
@@ -33,21 +33,13 @@ namespace Parser
                        : default(ClosureCollection);
         }
 
-        public ClosureCollection GetRange(int index)
-        {
-            return GetRange(index, Count - index);
-        }
+        public ClosureCollection GetRange(int index) { return GetRange(index, Count - index); }
 
         #endregion
 
-        public bool Equals(ClosureCollection closureCol)
-        {
-            return (this == closureCol);
-        }
+        public bool Equals(ClosureCollection closureCol) { return (this == closureCol); }
 
-        public bool NotEquals(ClosureCollection closureCol)
-        {
-            return !Equals(closureCol); //(this != closureCol);
+        public bool NotEquals(ClosureCollection closureCol) { return !Equals(closureCol); //(this != closureCol);
         }
 
         #region ISet Members
@@ -67,15 +59,9 @@ namespace Parser
 
         #region Overrided
 
-        public override bool Equals(Object obj)
-        {
-            return (obj is ClosureCollection) ? Equals(obj as ClosureCollection) : base.Equals(obj);
-        }
+        public override bool Equals(Object obj) { return (obj is ClosureCollection) ? Equals(obj as ClosureCollection) : base.Equals(obj); }
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode() ^ base.GetHashCode();
-        }
+        public override int GetHashCode() { return ToString().GetHashCode() ^ base.GetHashCode(); }
 
         public override String ToString()
         {
@@ -94,20 +80,11 @@ namespace Parser
 
         #region Static
 
-        public static implicit operator ClosureCollection(Closure closure)
-        {
-            return new ClosureCollection(new[] {closure});
-        }
+        public static implicit operator ClosureCollection(Closure closure) { return new ClosureCollection(new[] {closure}); }
 
-        public static implicit operator ClosureCollection(Closure[] arrClosure)
-        {
-            return new ClosureCollection(new List<Closure>(arrClosure));
-        }
+        public static implicit operator ClosureCollection(Closure[] arrClosure) { return new ClosureCollection(new List<Closure>(arrClosure)); }
 
-        public static explicit operator Closure[](ClosureCollection closureCol)
-        {
-            return ((List<Closure>) closureCol.Items).ToArray();
-        }
+        public static explicit operator Closure[](ClosureCollection closureCol) { return ((List<Closure>) closureCol.Items).ToArray(); }
 
         public static ClosureCollection operator +(ClosureCollection closureCol1, ClosureCollection closureCol2)
         {
@@ -139,10 +116,7 @@ namespace Parser
             return closureCol;
         }
 
-        public static int operator &(ClosureCollection closureCol, Closure closure)
-        {
-            return closureCol.IndexOf(closure);
-        }
+        public static int operator &(ClosureCollection closureCol, Closure closure) { return closureCol.IndexOf(closure); }
 
         public static bool operator ==(ClosureCollection closureCol1, ClosureCollection closureCol2)
         {
@@ -155,10 +129,7 @@ namespace Parser
             return true;
         }
 
-        public static bool operator !=(ClosureCollection closureCol1, ClosureCollection closureCol2)
-        {
-            return !(closureCol1 == closureCol2);
-        }
+        public static bool operator !=(ClosureCollection closureCol1, ClosureCollection closureCol2) { return !(closureCol1 == closureCol2); }
 
         #endregion
     }

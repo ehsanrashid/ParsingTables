@@ -9,13 +9,13 @@ namespace Parser
     {
         #region Constructors
 
-        public EntityCollection() {}
+        public EntityCollection() { }
 
         public EntityCollection(IList<T> list)
-            : base(list) {}
+            : base(list) { }
 
         public EntityCollection(EntityCollection<T> entityCol)
-            : base(entityCol.Items) {}
+            : base(entityCol.Items) { }
 
         #endregion
 
@@ -33,10 +33,7 @@ namespace Parser
                        : new EntityCollection<T>(Entities.GetRange(index, count));
         }
 
-        public EntityCollection<T> GetRange(int index)
-        {
-            return GetRange(index, Count - index);
-        }
+        public EntityCollection<T> GetRange(int index) { return GetRange(index, Count - index); }
 
         #endregion
 
@@ -55,37 +52,20 @@ namespace Parser
 
         #endregion
 
-        public bool Equals(EntityCollection<T> entityCol)
-        {
-            return (this == entityCol);
+        public bool Equals(EntityCollection<T> entityCol) { return (this == entityCol); }
+
+        public bool NotEquals(EntityCollection<T> entityCol) { return !Equals(entityCol); //(this != entityCol);
         }
 
-        public bool NotEquals(EntityCollection<T> entityCol)
-        {
-            return !Equals(entityCol); //(this != entityCol);
-        }
+        public bool Equals(params T[] arrEntity) { return Equals(new EntityCollection<T>(arrEntity)); }
 
-        public bool Equals(params T[] arrEntity)
-        {
-            return Equals(new EntityCollection<T>(arrEntity));
-        }
-
-        public bool NotEquals(params T[] arrEntity)
-        {
-            return !Equals(arrEntity);
-        }
+        public bool NotEquals(params T[] arrEntity) { return !Equals(arrEntity); }
 
         #region Overrided
 
-        public override bool Equals(Object obj)
-        {
-            return (obj is EntityCollection<T>) ? Equals(obj as EntityCollection<T>) : base.Equals(obj);
-        }
+        public override bool Equals(Object obj) { return (obj is EntityCollection<T>) ? Equals(obj as EntityCollection<T>) : base.Equals(obj); }
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode() ^ base.GetHashCode();
-        }
+        public override int GetHashCode() { return ToString().GetHashCode() ^ base.GetHashCode(); }
 
         public override String ToString()
         {
@@ -104,20 +84,11 @@ namespace Parser
 
         #region Static
 
-        public static explicit operator EntityCollection<T>(T entity)
-        {
-            return new EntityCollection<T>(new[] {entity});
-        }
+        public static explicit operator EntityCollection<T>(T entity) { return new EntityCollection<T>(new[] {entity}); }
 
-        public static implicit operator EntityCollection<T>(T[] arrEntity)
-        {
-            return new EntityCollection<T>(new List<T>(arrEntity));
-        }
+        public static implicit operator EntityCollection<T>(T[] arrEntity) { return new EntityCollection<T>(new List<T>(arrEntity)); }
 
-        public static explicit operator T[](EntityCollection<T> entityCol)
-        {
-            return entityCol.Entities.ToArray();
-        }
+        public static explicit operator T[](EntityCollection<T> entityCol) { return entityCol.Entities.ToArray(); }
 
         public static EntityCollection<T> operator +(EntityCollection<T> entityCol, Entity entity)
         {
@@ -182,10 +153,7 @@ namespace Parser
             return entCol;
         }
 
-        public static int operator &(EntityCollection<T> entityCol, Entity entity)
-        {
-            return entityCol.IndexOf(entity as T);
-        }
+        public static int operator &(EntityCollection<T> entityCol, Entity entity) { return entityCol.IndexOf(entity as T); }
 
         public static bool operator ==(EntityCollection<T> entityCol, Entity entity)
         {
@@ -193,10 +161,7 @@ namespace Parser
             return (entityCol.Count == 1) && entityCol[0] == entity;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol, Entity entity)
-        {
-            return !(entityCol == entity);
-        }
+        public static bool operator !=(EntityCollection<T> entityCol, Entity entity) { return !(entityCol == entity); }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2)
         {
@@ -209,10 +174,7 @@ namespace Parser
             return true;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2)
-        {
-            return !(entityCol1 == entityCol2);
-        }
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2) { return !(entityCol1 == entityCol2); }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2)
         {
@@ -225,10 +187,7 @@ namespace Parser
             return true;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2)
-        {
-            return !(entityCol1 == entityCol2);
-        }
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2) { return !(entityCol1 == entityCol2); }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2)
         {
@@ -241,10 +200,7 @@ namespace Parser
             return true;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2)
-        {
-            return !(entityCol1 == entityCol2);
-        }
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2) { return !(entityCol1 == entityCol2); }
 
         #endregion
     }

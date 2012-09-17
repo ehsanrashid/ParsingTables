@@ -9,7 +9,7 @@ namespace Parser
 
         public NonTerminal() {}
 
-        public NonTerminal(Entity nonTerminal)
+        public NonTerminal(IEntity nonTerminal)
             : base(nonTerminal) {}
 
         public static explicit operator NonTerminal(String title)

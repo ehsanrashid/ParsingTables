@@ -17,32 +17,18 @@ namespace Parser
             Goto = gotoI;
         }
 
-        public bool Equals(GotoEntry gotoEntry)
-        {
-            return (this == gotoEntry);
-        }
+        public bool Equals(GotoEntry gotoEntry) { return (this == gotoEntry); }
 
-        public bool NotEquals(GotoEntry gotoEntry)
-        {
-            return !Equals(gotoEntry); //(this != gotoEntry);
+        public bool NotEquals(GotoEntry gotoEntry) { return !Equals(gotoEntry); //(this != gotoEntry);
         }
 
         #region Overrided Methods
 
-        public override bool Equals(Object obj)
-        {
-            return (obj is GotoEntry) ? Equals(obj as GotoEntry) : base.Equals(obj);
-        }
+        public override bool Equals(Object obj) { return (obj is GotoEntry) ? Equals(obj as GotoEntry) : base.Equals(obj); }
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
+        public override int GetHashCode() { return ToString().GetHashCode(); }
 
-        public override String ToString()
-        {
-            return String.Format("Goto ({0}, {1}) = {2}", I.Title, X, Goto.Title);
-        }
+        public override String ToString() { return String.Format("Goto ({0}, {1}) = {2}", I.Title, X, Goto.Title); }
 
         #endregion
 
@@ -58,10 +44,7 @@ namespace Parser
                    && (gotoEntry1.Goto == gotoEntry2.Goto);
         }
 
-        public static bool operator !=(GotoEntry gotoEntry1, GotoEntry gotoEntry2)
-        {
-            return !(gotoEntry1 == gotoEntry2);
-        }
+        public static bool operator !=(GotoEntry gotoEntry1, GotoEntry gotoEntry2) { return !(gotoEntry1 == gotoEntry2); }
 
         #endregion
     }

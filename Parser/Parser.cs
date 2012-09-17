@@ -28,15 +28,9 @@ namespace Parser
 
         public EntityCollection<NonTerminal> NonTerminalCol { get; protected set; }
 
-        protected Parser(String filename)
-        {
-            Grammar = Grammar.Read(filename);
-        }
+        protected Parser(String filename) { Grammar = Grammar.Read(filename); }
 
-        protected Parser(params String[] grmProductions)
-        {
-            Grammar = Grammar.Read(grmProductions);
-        }
+        protected Parser(params String[] grmProductions) { Grammar = Grammar.Read(grmProductions); }
 
         public String FirstnFollow()
         {
@@ -59,18 +53,18 @@ namespace Parser
     {
         //ClosureCol & GoTo
 
-        private int _dotCount;
-        private int _gotoCount;
+        int _dotCount;
+        int _gotoCount;
 
-        private GotoEntry[] _gotoTable;
-        private SLRProduction _prods;
-        private String[,] _tableForm;
+        GotoEntry[] _gotoTable;
+        SLRProduction _prods;
+        String[,] _tableForm;
 
         public SLRParser(String filename)
-            : base(filename) {}
+            : base(filename) { }
 
         public SLRParser(params String[] grmProductions)
-            : base(grmProductions) {}
+            : base(grmProductions) { }
 
         public ClosureCollection ClosureCol { get; private set; }
 
@@ -143,7 +137,6 @@ namespace Parser
 
                     //Shift
                     for (var t = 0; t < terminalLength; ++t)
-                    {
                         foreach (var gotoEntity in _gotoTable)
                         {
                             if (gotoEntity.X != TerminalCol[t] || gotoEntity.I != ClosureCol[c]) continue;
@@ -151,7 +144,6 @@ namespace Parser
                             _tableForm[t, c] = "s" + gotoEntity.Goto.Title.Split('[', ']')[1];
                             break;
                         }
-                    }
 
                     //Reduce
                     //for (int p = 0; p < _closureCol[c].Count; ++p)
@@ -182,10 +174,7 @@ namespace Parser
             }
         }
 
-        private String GotoTitle()
-        {
-            return String.Concat("I[", _gotoCount, "]");
-        }
+        String GotoTitle() { return String.Concat("I[", _gotoCount, "]"); }
 
         public String ClouresGoToTable()
         {
@@ -213,11 +202,9 @@ namespace Parser
                 sb.AppendLine();
                 sb.Append(c);
                 for (var e = 0; e < _entityColO.Count; ++e) // +1 for '$'
-                {
                     //sbSLRTable.Append("\t " + (String.IsNullOrEmpty(_tableForm[ e, c ]) ? "." : _tableForm[ e, c ]));
                     sb.Append(String.Format("\t  {0} ",
                                             (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
-                }
             }
             sb.AppendLine();
             sb.Append(SEPARATOR);
@@ -229,20 +216,20 @@ namespace Parser
     {
         //ClosureCol & GoTo
 
-        private ClosureCollection _closureCol;
+        ClosureCollection _closureCol;
 
-        private int _dotCount;
-        private int _gotoCount;
+        int _dotCount;
+        int _gotoCount;
 
-        private GotoEntry[] _gotoTable;
-        private CLRProduction _prods;
-        private String[,] _tableForm;
+        GotoEntry[] _gotoTable;
+        CLRProduction _prods;
+        String[,] _tableForm;
 
         public CLRParser(String filename)
-            : base(filename) {}
+            : base(filename) { }
 
         public CLRParser(params String[] grmProductions)
-            : base(grmProductions) {}
+            : base(grmProductions) { }
 
         public ClosureCollection ClosureCol
         {
@@ -325,7 +312,6 @@ namespace Parser
 
                 //Shift
                 for (var t = 0; t < terminalLength; ++t)
-                {
                     foreach (var gotoEntity in _gotoTable)
                     {
                         if (gotoEntity.X != TerminalCol[t] || gotoEntity.I != _closureCol[c]) continue;
@@ -333,7 +319,6 @@ namespace Parser
                         _tableForm[t, c] = "s" + gotoEntity.Goto.Title.Split('[', ']')[1];
                         break;
                     }
-                }
 
                 //Reduce
                 for (var p = 0; p < _closureCol[c].Count; ++p)
@@ -356,10 +341,7 @@ namespace Parser
             }
         }
 
-        private String GotoTitle()
-        {
-            return "I[" + _gotoCount + "]";
-        }
+        String GotoTitle() { return "I[" + _gotoCount + "]"; }
 
         public String ClouresGoToTable()
         {
@@ -385,11 +367,9 @@ namespace Parser
                 sb.AppendLine();
                 sb.Append(c);
                 for (var e = 0; e < _entityColO.Count; ++e) // +1 for '$'
-                {
                     //sbSLRTable.Append("\t " + (String.IsNullOrEmpty(_tableForm[ e, c ]) ? "." : _tableForm[ e, c ]));
                     sb.Append(String.Format("\t  {0} ",
                                             (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
-                }
             }
             sb.AppendLine();
             sb.Append(SEPARATOR);

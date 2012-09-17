@@ -4,18 +4,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
-
 using Parser;
 
 namespace ParsingTables.Forms
 {
     public partial class ParsingTablesForm : Form
     {
-        public ParsingTablesForm()
-        {
-            InitializeComponent();
-        }
-
+        public ParsingTablesForm() { InitializeComponent(); }
 
         protected override void OnPaint(PaintEventArgs entPaint)
         {
@@ -27,29 +22,32 @@ namespace ParsingTables.Forms
             base.OnPaint(entPaint);
         }
 
-
-        private void BrowseGrammar_Click(object sender, EventArgs ent)
+        void BrowseGrammar_Click(object sender, EventArgs ent)
         {
-            var dlgOpenFile = new OpenFileDialog();
-            dlgOpenFile.Title = "Grammar File Dialog";
-            dlgOpenFile.InitialDirectory = Directory.GetCurrentDirectory();
-            dlgOpenFile.Filter = "Grammar files (*.gmr)|*.gmr";
-            //dlgOpenFile.FilterIndex = 1;
-            //dlgOpenFile.RestoreDirectory = true;
-            if (dlgOpenFile.ShowDialog() == DialogResult.OK)
-                txtGrammarFile.Text = dlgOpenFile.FileName;
+            var dlgOpenFile = new OpenFileDialog
+                              {
+                                  Title = "Grammar File Dialog",
+                                  InitialDirectory = Directory.GetCurrentDirectory(),
+                                  Filter = "Grammar files (*.gmr)|*.gmr"
+                                  //,FilterIndex = 1
+                                  //,RestoreDirectory = true
+                              };
+
+            if (DialogResult.OK == dlgOpenFile.ShowDialog()) txtGrammarFile.Text = dlgOpenFile.FileName;
         }
 
-        private void BrowseParser_Click(object sender, EventArgs ent)
+        void BrowseParser_Click(object sender, EventArgs ent)
         {
-            var dlgFolderBrowse = new FolderBrowserDialog();
-            dlgFolderBrowse.ShowNewFolderButton = true;
-            dlgFolderBrowse.SelectedPath = Directory.GetCurrentDirectory();
-            if (dlgFolderBrowse.ShowDialog() == DialogResult.OK)
-                txtParserFile.Text = dlgFolderBrowse.SelectedPath + @"\Output.prs";
+            var dlgFolderBrowse = new FolderBrowserDialog
+                                  {
+                                      ShowNewFolderButton = true,
+                                      SelectedPath = Directory.GetCurrentDirectory()
+                                  };
+            
+            if (DialogResult.OK == dlgFolderBrowse.ShowDialog()) txtParserFile.Text = dlgFolderBrowse.SelectedPath + @"\Output.prs";
         }
 
-        private void BtnParse_Click(object sender, EventArgs ent)
+        void BtnParse_Click(object sender, EventArgs ent)
         {
             foreach (Control control in Controls)
             {
@@ -85,11 +83,9 @@ namespace ParsingTables.Forms
                         writer.WriteLine("Closures >>>");
                         writer.WriteLine(parser.ClouresGoToTable());
                     }
-                    if (chkSLRTable.Checked)
-                    {
-                        writer.WriteLine("SLR Table >>>");
-                        //writer.WriteLine(parser.LALRTable());
-                    }
+                    
+                    if (chkSLRTable.Checked) writer.WriteLine("SLR Table >>>");
+                    //writer.WriteLine(parser.LALRTable());
                     writer.Close();
                 }
             }
@@ -111,7 +107,7 @@ namespace ParsingTables.Forms
             }
         }
 
-        private void TxtPath_Validating(object sender, CancelEventArgs entCancel)
+        void TxtPath_Validating(object sender, CancelEventArgs entCancel)
         {
             if (!(sender is TextBox)) return;
 
@@ -122,7 +118,7 @@ namespace ParsingTables.Forms
             entCancel.Cancel = true;
         }
 
-        private void TxtPath_Validated(object sender, EventArgs ent)
+        void TxtPath_Validated(object sender, EventArgs ent)
         {
             if (!(sender is TextBox)) return;
 
@@ -130,9 +126,6 @@ namespace ParsingTables.Forms
             errorProvider.SetError(txtBox, "");
         }
 
-        private void BtnExit_Click(object sender, EventArgs ent)
-        {
-            Close();
-        }
+        void BtnExit_Click(object sender, EventArgs ent) { Close(); }
     }
 }

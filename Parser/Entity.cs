@@ -11,14 +11,11 @@ namespace Parser
         }
 
         protected Entity(IEntity entity)
-            : this(entity.Title) {}
+            : this(entity.Title) { }
 
         #region ICloneable Members
 
-        Object ICloneable.Clone()
-        {
-            return MemberwiseClone();
-        }
+        Object ICloneable.Clone() { return MemberwiseClone(); }
 
         #endregion
 
@@ -30,46 +27,26 @@ namespace Parser
 
         #endregion
 
-        public bool Equals(Entity entity)
-        {
-            return (this == entity);
-        }
+        public bool Equals(Entity entity) { return (this == entity); }
 
-        public bool NotEquals(Entity entity)
-        {
-            return !Equals(entity); //(this != entity);
+        public bool NotEquals(Entity entity) { return !Equals(entity); //(this != entity);
         }
 
         #region Overrided
 
-        public override bool Equals(Object obj)
-        {
-            return (obj is Entity) ? Equals(obj as Entity) : base.Equals(obj);
-        }
+        public override bool Equals(Object obj) { return (obj is Entity) ? Equals(obj as Entity) : base.Equals(obj); }
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
+        public override int GetHashCode() { return ToString().GetHashCode(); }
 
-        public override String ToString()
-        {
-            return Title;
-        }
+        public override String ToString() { return Title; }
 
         #endregion
 
         #region Static
 
-        public static EntityCollection<Entity> operator +(Entity entity1, Entity entity2)
-        {
-            return new EntityCollection<Entity>(new[] {entity1, entity2});
-        }
+        public static EntityCollection<Entity> operator +(Entity entity1, Entity entity2) { return new EntityCollection<Entity>(new[] {entity1, entity2}); }
 
-        public static implicit operator EntityCollection<Entity>(Entity entity)
-        {
-            return new EntityCollection<Entity>(new[] {entity});
-        }
+        public static implicit operator EntityCollection<Entity>(Entity entity) { return new EntityCollection<Entity>(new[] {entity}); }
 
         public static bool operator ==(Entity entity1, Entity entity2)
         {
@@ -79,10 +56,7 @@ namespace Parser
             return (entity1.GetType() == entity2.GetType()) && (entity1.Title == entity2.Title);
         }
 
-        public static bool operator !=(Entity entity1, Entity entity2)
-        {
-            return !(entity1 == entity2);
-        }
+        public static bool operator !=(Entity entity1, Entity entity2) { return !(entity1 == entity2); }
 
         #endregion
     }

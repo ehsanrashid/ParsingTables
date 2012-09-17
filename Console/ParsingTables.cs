@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
-
 using Parser;
 
 namespace ParsingTables
 {
     public static class ParsingTables
     {
-
         public static void Parse(String fnIn, String fnOut)
         {
             var parser = new
@@ -17,7 +15,6 @@ namespace ParsingTables
 
             WriteToFile(parser, fnOut);
         }
-
 
         public static void Parse(String[] grammar, String fnOut)
         {
@@ -40,11 +37,14 @@ namespace ParsingTables
                     writer.WriteLine("Grammar >>>");
                     writer.WriteLine(parser.Grammar);
                     writer.WriteLine(Parser.Parser.SEPARATOR);
+                    
                     writer.WriteLine("Grammar Entities >>>");
                     writer.WriteLine(parser.EntityCol);
                     writer.WriteLine(Parser.Parser.SEPARATOR);
+                    
                     writer.WriteLine("First & Follow >>>");
                     writer.WriteLine(parser.FirstnFollow());
+                    
                     writer.WriteLine("Closures >>>");
                     writer.WriteLine(parser.ClouresGoToTable());
                     writer.WriteLine(parser.LALRTable());
@@ -150,7 +150,5 @@ namespace ParsingTables
                 Console.WriteLine(exp);
             }
         }
-
     }
-
 }
