@@ -12,6 +12,7 @@ namespace Parser
         // RightHand Side (Product)
         public EntityCollection<Entity> Product { get; private set; }
 
+        #region Constructors
 
         public Production(NonTerminal producer, EntityCollection<Entity> product)
         {
@@ -24,7 +25,8 @@ namespace Parser
         public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product) { }
 
         public Production() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
-
+        
+        #endregion
 
 
         public int Count
