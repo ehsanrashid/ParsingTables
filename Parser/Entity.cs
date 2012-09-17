@@ -2,6 +2,7 @@ using System;
 
 namespace Parser
 {
+
     public abstract class Entity : IEntity, ICloneable
     {
         protected String _title;

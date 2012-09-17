@@ -4,6 +4,7 @@ namespace ParsingTables
 {
     public static class StartUp
     {
+
         [STAThread]
         public static void Main(String[] args)
         {
