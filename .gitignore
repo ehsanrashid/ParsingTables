@@ -2,6 +2,9 @@
 bin
 obj
 /*.suo
+/Parser/*.suo
+/-Parser/*.suo
+
 
 # mstest test results
 TestResults
@@ -9,5 +12,4 @@ TestResults
 
 _ReSharper.ParsingTables
 /_ReSharper.ParsingTables
-/Parser/*.suo
-/-Parser/*.suo
+
