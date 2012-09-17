@@ -45,8 +45,8 @@ namespace ParsingTables
                             "C --> d"
                         };
 
-
-                    ParsingTables.Parse(grammar, "Output.txt");
+                    const String fnOut = "Output.txt";
+                    ParsingTables.Parse(grammar, fnOut);
                 }
             }
 

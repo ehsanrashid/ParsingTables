@@ -1,10 +1,10 @@
 using System;
 using System.Windows.Forms;
 
-using ParsingTables.Forms;
-
 namespace ParsingTables
 {
+    using Forms;
+
     public static class StartUp
     {
         [STAThread]
@@ -14,8 +14,8 @@ namespace ParsingTables
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new ParsingTablesForm());
 
-            //GC.Collect();
-            //GC.WaitForPendingFinalizers();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

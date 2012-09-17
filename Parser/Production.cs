@@ -6,45 +6,31 @@ namespace Parser
 {
     public class Production : IEnumerable, ICloneable
     {
+        // LeftHand Side (Producer)
+        public NonTerminal Producer { get; private set; }
+
+        // RightHand Side (Product)
+        public EntityCollection<Entity> Product { get; private set; }
+
         #region Constructors
 
         public Production(NonTerminal producer, EntityCollection<Entity> product)
         {
-            _producer = producer;
-            _product = product;
+            Producer = producer;
+            Product = product;
         }
 
-        public Production(NonTerminal producer) : this(producer, default(EntityCollection<Entity>))
-        {
-        }
+        public Production(NonTerminal producer) : this(producer, default(EntityCollection<Entity>)) {}
 
-        public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product)
-        {
-        }
+        public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product) {}
 
-        public Production() : this(new NonTerminal(), new EntityCollection<Entity>())
-        {
-        }
+        public Production() : this(new NonTerminal(), new EntityCollection<Entity>()) {}
 
         #endregion
 
-        private readonly NonTerminal _producer; // LeftHand Side (Producer)
-
-        private readonly EntityCollection<Entity> _product; // RightHand Side (Product)
-
-        public NonTerminal Producer
-        {
-            get { return _producer; }
-        }
-
-        public EntityCollection<Entity> Product
-        {
-            get { return _product; }
-        }
-
         public int Count
         {
-            get { return _product.Count; }
+            get { return Product.Count; }
         }
 
         #region ICloneable Members
@@ -53,8 +39,8 @@ namespace Parser
         {
             return new Production
                 (
-                new NonTerminal(_producer),
-                new EntityCollection<Entity>(_product)
+                new NonTerminal(Producer),
+                new EntityCollection<Entity>(Product)
                 );
         }
 
@@ -70,16 +56,14 @@ namespace Parser
             return !Equals(production); //(this != production);
         }
 
-
         #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable) _product).GetEnumerator();
+            return ((IEnumerable) Product).GetEnumerator();
         }
 
         #endregion
-
 
         #region Overrided Methods
 
@@ -95,7 +79,7 @@ namespace Parser
 
         public override String ToString()
         {
-            return String.Format("{0} --> {1}", _producer, _product);
+            return String.Format("{0} --> {1}", Producer, Product);
         }
 
         #endregion
@@ -107,8 +91,8 @@ namespace Parser
             if (ReferenceEquals(production1, production2)) return true;
             if (ReferenceEquals(null, production1) || ReferenceEquals(null, production2)) return false;
             return
-                (production1._producer == production2._producer)
-                && (production1._product == production2._product);
+                (production1.Producer == production2.Producer)
+                && (production1.Product == production2.Product);
         }
 
         public static bool operator !=(Production production1, Production production2)
@@ -130,23 +114,16 @@ namespace Parser
         }
 
         public SLRProduction(NonTerminal producer, EntityCollection<Entity> product)
-            : this(producer, product, default(int))
-        {
-        }
+            : this(producer, product, default(int)) {}
 
-        public SLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>())
-        {
-        }
+        public SLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) {}
 
         public int DotPosition
         {
             get { return _positionDot; }
             set
             {
-                if (0 > value || value > Count)
-                {
-                    throw new IndexOutOfRangeException("Dot Out of Bounds");
-                }
+                if (0 > value || value > Count) throw new IndexOutOfRangeException("Dot Out of Bounds");
                 _positionDot = value;
             }
         }
@@ -183,29 +160,25 @@ namespace Parser
             : base(nonTerm, entityCol, posDot)
         {
             if (lookAheads != default(EntityCollection<Terminal>))
+            {
                 foreach (var terminal in lookAheads)
                 {
                     if (null != terminal) continue;
                     _lookAheads = new EntityCollection<Terminal>((EntityCollection<Terminal>) ((Terminal) "$"));
                     return;
                 }
+            }
 
             _lookAheads = lookAheads;
         }
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol,
-                             EntityCollection<Terminal> lookAheads) : this(nonTerm, entityCol, default(int), lookAheads)
-        {
-        }
+                             EntityCollection<Terminal> lookAheads) : this(nonTerm, entityCol, default(int), lookAheads) {}
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol)
-            : this(nonTerm, entityCol, default(EntityCollection<Terminal>))
-        {
-        }
+            : this(nonTerm, entityCol, default(EntityCollection<Terminal>)) {}
 
-        public CLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>())
-        {
-        }
+        public CLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) {}
 
         public EntityCollection<Terminal> LookAheads
         {
@@ -230,10 +203,8 @@ namespace Parser
             var first = true;
             foreach (var terminal in _lookAheads)
             {
-                if (first)
-                    first = false;
-                else
-                    sb.Append(" | "); // Entity Sep
+                if (first) first = false;
+                else sb.Append(" | "); // Entity Sep
                 sb.Append(terminal);
             }
 

@@ -184,7 +184,7 @@ namespace Parser
 
         private String GotoTitle()
         {
-            return "I[" + _gotoCount + "]";
+            return String.Concat("I[", _gotoCount, "]");
         }
 
         public String ClouresGoToTable()
@@ -361,7 +361,7 @@ namespace Parser
             return "I[" + _gotoCount + "]";
         }
 
-        public String Cloures_GoToTable()
+        public String ClouresGoToTable()
         {
             var sb = new StringBuilder();
             sb.AppendLine(_closureCol.ToString());

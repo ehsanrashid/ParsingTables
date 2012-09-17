@@ -28,7 +28,7 @@ namespace ParsingTables.Forms
         }
 
 
-        private void browseGrammar_Click(object sender, EventArgs ent)
+        private void BrowseGrammar_Click(object sender, EventArgs ent)
         {
             var dlgOpenFile = new OpenFileDialog();
             dlgOpenFile.Title = "Grammar File Dialog";
@@ -40,7 +40,7 @@ namespace ParsingTables.Forms
                 txtGrammarFile.Text = dlgOpenFile.FileName;
         }
 
-        private void browseParser_Click(object sender, EventArgs ent)
+        private void BrowseParser_Click(object sender, EventArgs ent)
         {
             var dlgFolderBrowse = new FolderBrowserDialog();
             dlgFolderBrowse.ShowNewFolderButton = true;
@@ -49,7 +49,7 @@ namespace ParsingTables.Forms
                 txtParserFile.Text = dlgFolderBrowse.SelectedPath + @"\Output.prs";
         }
 
-        private void btnParse_Click(object sender, EventArgs ent)
+        private void BtnParse_Click(object sender, EventArgs ent)
         {
             foreach (Control control in Controls)
             {
@@ -78,12 +78,12 @@ namespace ParsingTables.Forms
                     if (chkFirstFollow.Checked)
                     {
                         writer.WriteLine("First & Follow >>>");
-                        writer.WriteLine(parser.First_Follow());
+                        writer.WriteLine(parser.FirstnFollow());
                     }
                     if (chkGotoTable.Checked)
                     {
                         writer.WriteLine("Closures >>>");
-                        writer.WriteLine(parser.Cloures_GoToTable());
+                        writer.WriteLine(parser.ClouresGoToTable());
                     }
                     if (chkSLRTable.Checked)
                     {
@@ -111,7 +111,7 @@ namespace ParsingTables.Forms
             }
         }
 
-        private void txtPath_Validating(object sender, CancelEventArgs entCancel)
+        private void TxtPath_Validating(object sender, CancelEventArgs entCancel)
         {
             if (!(sender is TextBox)) return;
 
@@ -122,7 +122,7 @@ namespace ParsingTables.Forms
             entCancel.Cancel = true;
         }
 
-        private void txtPath_Validated(object sender, EventArgs ent)
+        private void TxtPath_Validated(object sender, EventArgs ent)
         {
             if (!(sender is TextBox)) return;
 
@@ -130,7 +130,7 @@ namespace ParsingTables.Forms
             errorProvider.SetError(txtBox, "");
         }
 
-        private void btnExit_Click(object sender, EventArgs ent)
+        private void BtnExit_Click(object sender, EventArgs ent)
         {
             Close();
         }

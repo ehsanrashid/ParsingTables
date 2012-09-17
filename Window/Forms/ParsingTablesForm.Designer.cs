@@ -57,8 +57,8 @@ namespace ParsingTables.Forms
             this.txtGrammarFile.Size = new System.Drawing.Size(190, 21);
             this.txtGrammarFile.TabIndex = 1;
             this.txtGrammarFile.Tag = "Grammar Filename";
-            this.txtGrammarFile.Validated += new System.EventHandler(this.txtPath_Validated);
-            this.txtGrammarFile.Validating += new System.ComponentModel.CancelEventHandler(this.txtPath_Validating);
+            this.txtGrammarFile.Validated += new System.EventHandler(this.TxtPath_Validated);
+            this.txtGrammarFile.Validating += new System.ComponentModel.CancelEventHandler(this.TxtPath_Validating);
             // 
             // txtParserFile
             // 
@@ -68,8 +68,8 @@ namespace ParsingTables.Forms
             this.txtParserFile.Size = new System.Drawing.Size(190, 21);
             this.txtParserFile.TabIndex = 4;
             this.txtParserFile.Tag = "Parser Filename";
-            this.txtParserFile.Validated += new System.EventHandler(this.txtPath_Validated);
-            this.txtParserFile.Validating += new System.ComponentModel.CancelEventHandler(this.txtPath_Validating);
+            this.txtParserFile.Validated += new System.EventHandler(this.TxtPath_Validated);
+            this.txtParserFile.Validating += new System.ComponentModel.CancelEventHandler(this.TxtPath_Validating);
             // 
             // lblGrammarFile
             // 
@@ -105,7 +105,7 @@ namespace ParsingTables.Forms
             this.browseGrammar.Tag = "";
             this.browseGrammar.Text = "...";
             this.browseGrammar.UseVisualStyleBackColor = false;
-            this.browseGrammar.Click += new System.EventHandler(this.browseGrammar_Click);
+            this.browseGrammar.Click += new System.EventHandler(this.BrowseGrammar_Click);
             // 
             // grpOptions
             // 
@@ -181,7 +181,7 @@ namespace ParsingTables.Forms
             this.btnParse.TabIndex = 7;
             this.btnParse.Text = "Parse";
             this.btnParse.UseVisualStyleBackColor = false;
-            this.btnParse.Click += new System.EventHandler(this.btnParse_Click);
+            this.btnParse.Click += new System.EventHandler(this.BtnParse_Click);
             // 
             // browseParser
             // 
@@ -197,7 +197,7 @@ namespace ParsingTables.Forms
             this.browseParser.Tag = "";
             this.browseParser.Text = "...";
             this.browseParser.UseVisualStyleBackColor = false;
-            this.browseParser.Click += new System.EventHandler(this.browseParser_Click);
+            this.browseParser.Click += new System.EventHandler(this.BrowseParser_Click);
             // 
             // errorProvider
             // 
@@ -216,7 +216,7 @@ namespace ParsingTables.Forms
             this.btnExit.TabIndex = 7;
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = false;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            this.btnExit.Click += new System.EventHandler(this.BtnExit_Click);
             // 
             // ParsingTablesForm
             // 

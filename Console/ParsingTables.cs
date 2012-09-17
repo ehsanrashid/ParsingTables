@@ -8,33 +8,33 @@ namespace ParsingTables
     public static class ParsingTables
     {
 
-        public static void Parse(String fn_in, String fn_out)
+        public static void Parse(String fnIn, String fnOut)
         {
             var parser = new
                 SLRParser
                 //CLRParser 
-                (fn_in);
+                (fnIn);
 
-            WriteToFile(parser, fn_out);
+            WriteToFile(parser, fnOut);
         }
 
 
-        public static void Parse(String[] grammar, String fn_out)
+        public static void Parse(String[] grammar, String fnOut)
         {
             var parser = new
                 SLRParser
                 //CLRParser 
                 (grammar);
 
-            WriteToFile(parser, fn_out);
+            WriteToFile(parser, fnOut);
         }
 
-        public static void WriteToFile(SLRParser parser, String fn_out)
+        public static void WriteToFile(SLRParser parser, String fnOut)
         {
             try
             {
                 // Write to Output File
-                using (var stream = new FileStream(fn_out, FileMode.Create))
+                using (var stream = new FileStream(fnOut, FileMode.Create))
                 using (var writer = new StreamWriter(stream))
                 {
                     writer.WriteLine("Grammar >>>");
@@ -44,9 +44,9 @@ namespace ParsingTables
                     writer.WriteLine(parser.EntityCol);
                     writer.WriteLine(Parser.Parser.SEPARATOR);
                     writer.WriteLine("First & Follow >>>");
-                    writer.WriteLine(parser.First_Follow());
+                    writer.WriteLine(parser.FirstnFollow());
                     writer.WriteLine("Closures >>>");
-                    writer.WriteLine(parser.Cloures_GoToTable());
+                    writer.WriteLine(parser.ClouresGoToTable());
                     writer.WriteLine(parser.LALRTable());
                     writer.Close();
                 }
@@ -90,12 +90,12 @@ namespace ParsingTables
             }
         }
 
-        public static void WriteToFile(CLRParser parser, String fn_out)
+        public static void WriteToFile(CLRParser parser, String fnOut)
         {
             try
             {
                 // Write to Output File
-                using (var stream = new FileStream(fn_out, FileMode.Create))
+                using (var stream = new FileStream(fnOut, FileMode.Create))
                 using (var writer = new StreamWriter(stream))
                 {
                     writer.WriteLine("Grammar >>>");
@@ -105,9 +105,9 @@ namespace ParsingTables
                     writer.WriteLine(parser.EntityCol);
                     writer.WriteLine(Parser.Parser.SEPARATOR);
                     writer.WriteLine("First & Follow >>>");
-                    writer.WriteLine(parser.First_Follow());
+                    writer.WriteLine(parser.FirstnFollow());
                     writer.WriteLine("Closures >>>");
-                    writer.WriteLine(parser.Cloures_GoToTable());
+                    writer.WriteLine(parser.ClouresGoToTable());
                     writer.WriteLine(parser.LALRTable());
                     writer.Close();
                 }
