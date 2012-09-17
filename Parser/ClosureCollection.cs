@@ -9,19 +9,13 @@ namespace Parser
     {
         #region Constructors
 
-        public ClosureCollection()
-        {
-        }
+        public ClosureCollection() {}
 
         public ClosureCollection(IList<Closure> list)
-            : base(list)
-        {
-        }
+            : base(list) {}
 
         public ClosureCollection(ClosureCollection closureCol)
-            : base(closureCol.Items)
-        {
-        }
+            : base(closureCol.Items) {}
 
         #endregion
 
@@ -89,10 +83,8 @@ namespace Parser
             var first = true;
             foreach (var closer in this)
             {
-                if (first)
-                    first = false;
-                else
-                    sb.AppendLine();
+                if (first) first = false;
+                else sb.AppendLine();
                 sb.Append(closer);
             }
             return sb.ToString();
@@ -156,12 +148,10 @@ namespace Parser
         {
             if (ReferenceEquals(closureCol1, closureCol2)) return true;
             if (ReferenceEquals(null, closureCol1) || ReferenceEquals(null, closureCol2)) return false;
-            
+
             if (closureCol1.Count != closureCol2.Count) return false;
 
-            for (var index = 0; index < closureCol1.Count; ++index)
-                if (closureCol1[index] != closureCol2[index])
-                    return false;
+            for (var index = 0; index < closureCol1.Count; ++index) if (closureCol1[index] != closureCol2[index]) return false;
             return true;
         }
 

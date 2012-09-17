@@ -6,13 +6,27 @@ namespace Parser
     public abstract class Parser
     {
         public const String SEPARATOR = "________________________________________";
-        protected EntityCollection<Entity> _entityCol;
+
+        protected Grammar _grammar;
+
+        public Grammar Grammar
+        {
+            get { return _grammar; }
+            set
+            {
+                if (default(Grammar) != value) Extract(value);
+                else _grammar = default(Grammar);
+            }
+        }
 
         //  un-augmented grammar entities
         protected EntityCollection<Entity> _entityColO;
-        protected Grammar _grammar;
-        protected EntityCollection<NonTerminal> _nonterminalCol;
-        protected EntityCollection<Terminal> _terminalCol;
+
+        public EntityCollection<Entity> EntityCol { get; protected set; }
+
+        public EntityCollection<Terminal> TerminalCol { get; protected set; }
+
+        public EntityCollection<NonTerminal> NonTerminalCol { get; protected set; }
 
         protected Parser(String filename)
         {
@@ -24,46 +38,14 @@ namespace Parser
             Grammar = Grammar.Read(grmProductions);
         }
 
-        public EntityCollection<Entity> EntityCol
-        {
-            get { return _entityCol; }
-        }
-
-        public EntityCollection<Terminal> TerminalCol
-        {
-            get { return _terminalCol; }
-        }
-
-        public EntityCollection<NonTerminal> NonTerminalCol
-        {
-            get { return _nonterminalCol; }
-        }
-
-        public Grammar Grammar
-        {
-            get { return _grammar; }
-            set
-            {
-                if (default(Grammar) != value)
-                {
-                    Extract(value);
-                }
-                else
-                {
-                    _grammar = default(Grammar);
-                }
-            }
-        }
-
-        public String First_Follow()
+        public String FirstnFollow()
         {
             var sb = new StringBuilder();
             foreach (var entity in _entityColO)
             {
                 // if grammar is not left recursive
                 sb.AppendLine(String.Format("FIRST {0} : {1}", entity, _grammar.First(entity)));
-                if (entity is NonTerminal)
-                    sb.AppendLine(String.Format("FOLLOW {0} : {1}", entity, _grammar.Follow(entity)));
+                if (entity is NonTerminal) sb.AppendLine(String.Format("FOLLOW {0} : {1}", entity, _grammar.Follow(entity)));
                 sb.AppendLine("------");
             }
             sb.Append(SEPARATOR);
@@ -77,8 +59,6 @@ namespace Parser
     {
         //ClosureCol & GoTo
 
-        private ClosureCollection _closureCol;
-
         private int _dotCount;
         private int _gotoCount;
 
@@ -87,35 +67,28 @@ namespace Parser
         private String[,] _tableForm;
 
         public SLRParser(String filename)
-            : base(filename)
-        {
-        }
+            : base(filename) {}
 
         public SLRParser(params String[] grmProductions)
-            : base(grmProductions)
-        {
-        }
+            : base(grmProductions) {}
 
-        public ClosureCollection ClosureCol
-        {
-            get { return _closureCol; }
-        }
+        public ClosureCollection ClosureCol { get; private set; }
 
         public override void Extract(Grammar grammar)
         {
             try
             {
                 _grammar = grammar;
-                _entityCol = grammar.Entities;
-                _terminalCol = grammar.Terminals;
-                _nonterminalCol = grammar.NonTerminals;
+                EntityCol = grammar.Entities;
+                TerminalCol = grammar.Terminals;
+                NonTerminalCol = grammar.NonTerminals;
 
                 // removing augmented entity
-                var augment = _entityCol[0];
-                _entityColO = _entityCol - augment;
+                var augment = EntityCol[0];
+                _entityColO = EntityCol - augment;
 
                 //_nonterminalCol.Remove((NonTerminal) augment);
-                _nonterminalCol = _nonterminalCol - augment;
+                NonTerminalCol = NonTerminalCol - augment;
 
                 //Cloure_GoToTable
                 _prods = new SLRProduction(grammar[0].Producer, grammar[0].Product);
@@ -123,14 +96,14 @@ namespace Parser
                 _gotoCount = 0;
                 _dotCount = 0;
 
-                _closureCol = new ClosureCollection(new Closure[] { new SLRClosure(GotoTitle(), grammar, new[] { _prods }) });
+                ClosureCol = new ClosureCollection(new Closure[] {new SLRClosure(GotoTitle(), grammar, new[] {_prods})});
 
                 // TODO:: closure production is wrong
                 ++_gotoCount;
                 _gotoTable = new GotoEntry[0];
-                for (var c = 0; c < _closureCol.Count; ++c)
+                for (var c = 0; c < ClosureCol.Count; ++c)
                 {
-                    var closure = (SLRClosure) _closureCol[c];
+                    var closure = (SLRClosure) ClosureCol[c];
                     foreach (var entity in _entityColO - (Terminal) "$")
                     {
                         var gotoClosure = closure.GoToEntity(entity);
@@ -138,18 +111,15 @@ namespace Parser
                         {
                             var index =
                                 //_closureCol.List.FindIndex((Closure clr) => (clr == gotoClosure));
-                                _closureCol.Closures.IndexOf(gotoClosure);
+                                ClosureCol.Closures.IndexOf(gotoClosure);
                             if (index == -1)
                             {
                                 // add new Goto State
                                 gotoClosure.Title = GotoTitle();
-                                _closureCol += gotoClosure;
+                                ClosureCol += gotoClosure;
                                 ++_gotoCount;
                             }
-                            else
-                            {
-                                gotoClosure = _closureCol[index];
-                            }
+                            else gotoClosure = ClosureCol[index];
 
                             var length = (_gotoTable == default(GotoEntry[])) ? 0 : _gotoTable.Length;
                             var newGotoTable = new GotoEntry[length + 1];
@@ -165,33 +135,33 @@ namespace Parser
                 }
 
                 // LR Table
-                _tableForm = new String[_entityCol.Count, _closureCol.Count];
+                _tableForm = new String[EntityCol.Count,ClosureCol.Count];
 
-                for (var c = 0; c < _closureCol.Count; ++c)
+                for (var c = 0; c < ClosureCol.Count; ++c)
                 {
-                    var terminalLength = _terminalCol.Count;
+                    var terminalLength = TerminalCol.Count;
 
                     //Shift
                     for (var t = 0; t < terminalLength; ++t)
+                    {
                         foreach (var gotoEntity in _gotoTable)
                         {
-                            if (gotoEntity.X != _terminalCol[t] || gotoEntity.I != _closureCol[c]) continue;
+                            if (gotoEntity.X != TerminalCol[t] || gotoEntity.I != ClosureCol[c]) continue;
 
                             _tableForm[t, c] = "s" + gotoEntity.Goto.Title.Split('[', ']')[1];
                             break;
                         }
+                    }
 
                     //Reduce
                     //for (int p = 0; p < _closureCol[c].Count; ++p)
-                    foreach (SLRProduction production in _closureCol[c])
+                    foreach (SLRProduction production in ClosureCol[c])
                     {
                         //SLRProduction production = _closureCol[c][p];
                         if (production.DotPosition == (production.Count - 1)
-                            && production == _closureCol[1][0] // S' --> S .$
+                            && production == ClosureCol[1][0] // S' --> S .$
                             ) // Accepted
-                        {
-                            _tableForm[_terminalCol & (Terminal) "$", 1] = "!!";
-                        }
+                            _tableForm[TerminalCol & (Terminal) "$", 1] = "!!";
 
                         if (production.DotPosition != production.Count) continue;
 
@@ -199,15 +169,11 @@ namespace Parser
                         if (null == followCol) continue;
 
                         //followCol.Remove( (Terminal)"$" );
-                        foreach (var follow in followCol)
-                            _tableForm[_terminalCol & follow, c] = "r" + (grammar & production);
+                        foreach (var follow in followCol) _tableForm[TerminalCol & follow, c] = "r" + (grammar & production);
                     }
 
                     // Goto
-                    for (var n = 0; n < _nonterminalCol.Count; ++n)
-                        foreach (var gotoEntity in _gotoTable)
-                            if (gotoEntity.X == _nonterminalCol[n] && gotoEntity.I == _closureCol[c])
-                                _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
+                    for (var n = 0; n < NonTerminalCol.Count; ++n) foreach (var gotoEntity in _gotoTable) if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == ClosureCol[c]) _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
                 }
             }
             catch (Exception exp)
@@ -221,15 +187,14 @@ namespace Parser
             return "I[" + _gotoCount + "]";
         }
 
-        public String Cloures_GoToTable()
+        public String ClouresGoToTable()
         {
             var sb = new StringBuilder();
-            sb.AppendLine(_closureCol.ToString());
+            sb.AppendLine(ClosureCol.ToString());
             sb.AppendLine(SEPARATOR);
             sb.AppendLine("Done.... " + (_gotoCount - 1) + " states achieved. " + _dotCount + " Dots");
 
-            foreach (var gotoE in _gotoTable)
-                sb.AppendLine(gotoE.ToString());
+            foreach (var gotoE in _gotoTable) sb.AppendLine(gotoE.ToString());
 
             sb.Append(SEPARATOR);
             return sb.ToString();
@@ -241,18 +206,17 @@ namespace Parser
             sb.AppendLine();
             sb.Append("\t");
 
-            foreach (var terminal in _terminalCol.Entities)
-                sb.Append(String.Concat("◄ ", terminal, " ►\t"));
-            foreach (var nonTerminal in _nonterminalCol.Entities)
-                sb.Append(String.Concat("◄ ", nonTerminal, " ►\t"));
-            for (var c = 0; c < _closureCol.Count; ++c)
+            foreach (var terminal in TerminalCol.Entities) sb.Append(String.Concat("◄ ", terminal, " ►\t"));
+            foreach (var nonTerminal in NonTerminalCol.Entities) sb.Append(String.Concat("◄ ", nonTerminal, " ►\t"));
+            for (var c = 0; c < ClosureCol.Count; ++c)
             {
                 sb.AppendLine();
                 sb.Append(c);
                 for (var e = 0; e < _entityColO.Count; ++e) // +1 for '$'
                 {
                     //sbSLRTable.Append("\t " + (String.IsNullOrEmpty(_tableForm[ e, c ]) ? "." : _tableForm[ e, c ]));
-                    sb.Append(String.Format("\t  {0} ", (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
+                    sb.Append(String.Format("\t  {0} ",
+                                            (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
                 }
             }
             sb.AppendLine();
@@ -275,14 +239,10 @@ namespace Parser
         private String[,] _tableForm;
 
         public CLRParser(String filename)
-            : base(filename)
-        {
-        }
+            : base(filename) {}
 
         public CLRParser(params String[] grmProductions)
-            : base(grmProductions)
-        {
-        }
+            : base(grmProductions) {}
 
         public ClosureCollection ClosureCol
         {
@@ -292,22 +252,24 @@ namespace Parser
         public override void Extract(Grammar grammar)
         {
             _grammar = grammar;
-            _entityCol = grammar.Entities;
-            _terminalCol = grammar.Terminals;
-            _nonterminalCol = grammar.NonTerminals;
+            EntityCol = grammar.Entities;
+            TerminalCol = grammar.Terminals;
+            NonTerminalCol = grammar.NonTerminals;
 
             // removing augmented entity
-            var augment = _entityCol[0];
-            _entityColO = _entityCol - augment;
-            _nonterminalCol.Remove((NonTerminal) augment);
+            var augment = EntityCol[0];
+            _entityColO = EntityCol - augment;
+            NonTerminalCol.Remove((NonTerminal) augment);
 
             //Cloure_GoToTable
-            _prods = new CLRProduction(grammar[0].Producer, grammar[0].Product, new EntityCollection<Terminal>(new[] { (Terminal) "$" }));
+            _prods = new CLRProduction(grammar[0].Producer, grammar[0].Product,
+                                       new EntityCollection<Terminal>(new[] {(Terminal) "$"}));
 
             _gotoCount = 0;
             _dotCount = 0;
 
-            _closureCol = new ClosureCollection(new Closure[] { new CLRClosure(GotoTitle(), grammar, new SLRProduction[] { _prods }) });
+            _closureCol =
+                new ClosureCollection(new Closure[] {new CLRClosure(GotoTitle(), grammar, new SLRProduction[] {_prods})});
 
             ++_gotoCount;
             _gotoTable = new GotoEntry[0];
@@ -315,8 +277,7 @@ namespace Parser
             {
                 var closure = (SLRClosure) _closureCol[c];
                 var tmp = _entityColO - (Terminal) "$";
-                for (var e = 0; e < tmp.Count; ++e)
-                //foreach (var entity in _entityColO - (Terminal) "$")
+                for (var e = 0; e < tmp.Count; ++e) //foreach (var entity in _entityColO - (Terminal) "$")
                 {
                     var entity = tmp[e];
                     var gotoClosure = closure.GoToEntity(entity);
@@ -356,21 +317,23 @@ namespace Parser
             }
 
             // LR Table
-            _tableForm = new String[_entityCol.Count, _closureCol.Count];
+            _tableForm = new String[EntityCol.Count,_closureCol.Count];
 
             for (var c = 0; c < _closureCol.Count; ++c)
             {
-                var terminalLength = _terminalCol.Count;
+                var terminalLength = TerminalCol.Count;
 
                 //Shift
                 for (var t = 0; t < terminalLength; ++t)
+                {
                     foreach (var gotoEntity in _gotoTable)
                     {
-                        if (gotoEntity.X != _terminalCol[t] || gotoEntity.I != _closureCol[c]) continue;
+                        if (gotoEntity.X != TerminalCol[t] || gotoEntity.I != _closureCol[c]) continue;
 
                         _tableForm[t, c] = "s" + gotoEntity.Goto.Title.Split('[', ']')[1];
                         break;
                     }
+                }
 
                 //Reduce
                 for (var p = 0; p < _closureCol[c].Count; ++p)
@@ -379,23 +342,17 @@ namespace Parser
                     if (production.DotPosition == (production.Count - 1)
                         && production == _closureCol[1][0] // S' --> S .$
                         ) // Accepted
-                    {
-                        _tableForm[_terminalCol & (Terminal) "$", 1] = "!!";
-                    }
+                        _tableForm[TerminalCol & (Terminal) "$", 1] = "!!";
 
                     if (production.DotPosition != production.Count) continue;
                     var followCol = grammar.Follow(production.Producer);
                     if (default(EntityCollection<Terminal>) == followCol) continue;
                     //followCol.Remove( (Terminal)"$" );
-                    foreach (var follow in followCol)
-                        _tableForm[_terminalCol & follow, c] = "r" + (grammar & production);
+                    foreach (var follow in followCol) _tableForm[TerminalCol & follow, c] = "r" + (grammar & production);
                 }
 
                 // Goto
-                for (var n = 0; n < _nonterminalCol.Count; ++n)
-                    foreach (var gotoEntity in _gotoTable)
-                        if (gotoEntity.X == _nonterminalCol[n] && gotoEntity.I == _closureCol[c])
-                            _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
+                for (var n = 0; n < NonTerminalCol.Count; ++n) foreach (var gotoEntity in _gotoTable) if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == _closureCol[c]) _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
             }
         }
 
@@ -410,8 +367,7 @@ namespace Parser
             sb.AppendLine(_closureCol.ToString());
             sb.AppendLine(SEPARATOR);
             sb.AppendLine("Done.... " + (_gotoCount - 1) + " states achieved. " + _dotCount + " Dots");
-            for (var index = 0; index < _gotoTable.Length; ++index)
-                sb.AppendLine(_gotoTable[index].ToString());
+            for (var index = 0; index < _gotoTable.Length; ++index) sb.AppendLine(_gotoTable[index].ToString());
             sb.Append(SEPARATOR);
             return sb.ToString();
         }
@@ -422,10 +378,8 @@ namespace Parser
             sb.AppendLine();
             sb.Append("\t");
 
-            foreach (var terminal in _terminalCol.Entities)
-                sb.Append("◄ " + terminal + " ►\t");
-            foreach (var nonTerminal in _nonterminalCol.Entities)
-                sb.Append("◄ " + nonTerminal + " ►\t");
+            foreach (var terminal in TerminalCol.Entities) sb.Append("◄ " + terminal + " ►\t");
+            foreach (var nonTerminal in NonTerminalCol.Entities) sb.Append("◄ " + nonTerminal + " ►\t");
             for (var c = 0; c < _closureCol.Count; ++c)
             {
                 sb.AppendLine();

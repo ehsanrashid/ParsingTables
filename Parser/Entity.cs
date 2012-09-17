@@ -2,7 +2,6 @@ using System;
 
 namespace Parser
 {
-
     public abstract class Entity : IEntity, ICloneable
     {
         protected Entity(String title = default(String))
@@ -12,7 +11,7 @@ namespace Parser
         }
 
         protected Entity(IEntity entity)
-            : this(entity.Title) { }
+            : this(entity.Title) {}
 
         #region ICloneable Members
 
@@ -64,12 +63,12 @@ namespace Parser
 
         public static EntityCollection<Entity> operator +(Entity entity1, Entity entity2)
         {
-            return new EntityCollection<Entity>(new[] { entity1, entity2 });
+            return new EntityCollection<Entity>(new[] {entity1, entity2});
         }
 
         public static implicit operator EntityCollection<Entity>(Entity entity)
         {
-            return new EntityCollection<Entity>(new[] { entity });
+            return new EntityCollection<Entity>(new[] {entity});
         }
 
         public static bool operator ==(Entity entity1, Entity entity2)

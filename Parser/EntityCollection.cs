@@ -9,19 +9,13 @@ namespace Parser
     {
         #region Constructors
 
-        public EntityCollection()
-        {
-        }
+        public EntityCollection() {}
 
         public EntityCollection(IList<T> list)
-            : base(list)
-        {
-        }
+            : base(list) {}
 
         public EntityCollection(EntityCollection<T> entityCol)
-            : base(entityCol.Items)
-        {
-        }
+            : base(entityCol.Items) {}
 
         #endregion
 
@@ -99,10 +93,8 @@ namespace Parser
             var first = true;
             foreach (var entity in this)
             {
-                if (first)
-                    first = false;
-                else
-                    sb.Append(" ");
+                if (first) first = false;
+                else sb.Append(" ");
                 sb.Append(entity);
             }
             return sb.ToString();
@@ -114,7 +106,7 @@ namespace Parser
 
         public static explicit operator EntityCollection<T>(T entity)
         {
-            return new EntityCollection<T>(new[] { entity });
+            return new EntityCollection<T>(new[] {entity});
         }
 
         public static implicit operator EntityCollection<T>(T[] arrEntity)
@@ -129,27 +121,25 @@ namespace Parser
 
         public static EntityCollection<T> operator +(EntityCollection<T> entityCol, Entity entity)
         {
-            if (null == entityCol) return new EntityCollection<T>(new[] { entity as T });
+            if (null == entityCol) return new EntityCollection<T>(new[] {entity as T});
             if (null == entity) return new EntityCollection<T>(entityCol);
 
             var entCol = new EntityCollection<T>();
             var count = entityCol.Count;
-            for (var index = 0; index < count + 1; ++index)
-                entCol.Add((index < count) ? entityCol[index] : entity as T);
+            for (var index = 0; index < count + 1; ++index) entCol.Add((index < count) ? entityCol[index] : entity as T);
             return entCol;
         }
 
         public static EntityCollection<T> operator -(EntityCollection<T> entityCol, Entity entity)
         {
-            if (null== entityCol) return default(EntityCollection<T>);
-            if (null== entity) return new EntityCollection<T>(entityCol);
+            if (null == entityCol) return default(EntityCollection<T>);
+            if (null == entity) return new EntityCollection<T>(entityCol);
 
             var idxEnt = entityCol & entity;
             if (idxEnt == -1) return new EntityCollection<T>(entityCol);
 
             var entCol = new EntityCollection<T>();
-            for (var index = 0; index < entityCol.Count - 1; ++index)
-                entCol.Add(entityCol[index + ((index < idxEnt) ? 0 : 1)]);
+            for (var index = 0; index < entityCol.Count - 1; ++index) entCol.Add(entityCol[index + ((index < idxEnt) ? 0 : 1)]);
             return entCol;
         }
 
@@ -161,8 +151,7 @@ namespace Parser
             var count1 = entityCol1.Count;
             var count2 = entityCol2.Count;
             var entityCol = new EntityCollection<T>();
-            for (var index = 0; index < count1 + count2; ++index)
-                entityCol.Add((index < count1) ? entityCol1[index] : entityCol2[index - count1]);
+            for (var index = 0; index < count1 + count2; ++index) entityCol.Add((index < count1) ? entityCol1[index] : entityCol2[index - count1]);
             return entityCol;
         }
 
@@ -198,7 +187,6 @@ namespace Parser
             return entityCol.IndexOf(entity as T);
         }
 
-
         public static bool operator ==(EntityCollection<T> entityCol, Entity entity)
         {
             if (ReferenceEquals(null, entityCol) || ReferenceEquals(null, entity)) return false;
@@ -217,9 +205,7 @@ namespace Parser
 
             if (entityCol1.Count != entityCol2.Count) return false;
 
-            for (var index = 0; index < entityCol1.Count; ++index)
-                if (entityCol1[index] != entityCol2[index])
-                    return false;
+            for (var index = 0; index < entityCol1.Count; ++index) if (entityCol1[index] != entityCol2[index]) return false;
             return true;
         }
 
@@ -235,9 +221,7 @@ namespace Parser
 
             if (entityCol1.Count != entityCol2.Count) return false;
 
-            for (var index = 0; index < entityCol1.Count; ++index)
-                if (entityCol1[index] != entityCol2[index])
-                    return false;
+            for (var index = 0; index < entityCol1.Count; ++index) if (entityCol1[index] != entityCol2[index]) return false;
             return true;
         }
 
@@ -253,9 +237,7 @@ namespace Parser
 
             if (entityCol1.Count != entityCol2.Count) return false;
 
-            for (var index = 0; index < entityCol1.Count; ++index)
-                if (entityCol1[index] != entityCol2[index])
-                    return false;
+            for (var index = 0; index < entityCol1.Count; ++index) if (entityCol1[index] != entityCol2[index]) return false;
             return true;
         }
 
@@ -265,6 +247,5 @@ namespace Parser
         }
 
         #endregion
-
     }
 }
