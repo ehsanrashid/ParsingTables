@@ -2,8 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParsingTables(Console)", "Console\ParsingTables(Console).csproj", "{1D2991E1-BCA6-4FBC-A4F8-B79C2CF59186}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBD5389D-A235-445A-94D4-10CE1D827348} = {CBD5389D-A235-445A-94D4-10CE1D827348}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParsingTables(Windows)", "Window\ParsingTables(Windows).csproj", "{37632EE6-EE90-4DA2-A2E3-21BE177D7C7A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CBD5389D-A235-445A-94D4-10CE1D827348} = {CBD5389D-A235-445A-94D4-10CE1D827348}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{CBD5389D-A235-445A-94D4-10CE1D827348}"
 EndProject
