@@ -9,3 +9,5 @@ TestResults
 
 _ReSharper.ParsingTables
 /_ReSharper.ParsingTables
+/Parser/*.suo
+/-Parser/*.suo
