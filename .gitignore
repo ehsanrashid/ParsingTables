@@ -6,3 +6,5 @@ _ReSharper.ParsingTables
 # mstest test results
 TestResults
 /*.suo
+/_ReSharper.ParsingTables
+_ReSharper.ParsingTables
