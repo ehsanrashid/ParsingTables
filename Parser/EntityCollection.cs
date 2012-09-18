@@ -44,7 +44,7 @@ namespace Parser
             for (var i = Count - 1; i >= 0; --i)
             {
                 var index = Entities.IndexOf(this[i], i + 1);
-                if (index == -1) continue;
+                if (-1 == index) continue;
                 RemoveAt(index);
             }
             return this;
@@ -54,7 +54,9 @@ namespace Parser
 
         public bool Equals(EntityCollection<T> entityCol) { return (this == entityCol); }
 
-        public bool NotEquals(EntityCollection<T> entityCol) { return !Equals(entityCol); //(this != entityCol);
+        public bool NotEquals(EntityCollection<T> entityCol)
+        {
+            return !Equals(entityCol); //(this != entityCol);
         }
 
         public bool Equals(params T[] arrEntity) { return Equals(new EntityCollection<T>(arrEntity)); }
@@ -84,7 +86,7 @@ namespace Parser
 
         #region Static
 
-        public static explicit operator EntityCollection<T>(T entity) { return new EntityCollection<T>(new[] {entity}); }
+        public static explicit operator EntityCollection<T>(T entity) { return new EntityCollection<T>(new[] { entity }); }
 
         public static implicit operator EntityCollection<T>(T[] arrEntity) { return new EntityCollection<T>(new List<T>(arrEntity)); }
 
@@ -92,7 +94,7 @@ namespace Parser
 
         public static EntityCollection<T> operator +(EntityCollection<T> entityCol, Entity entity)
         {
-            if (null == entityCol) return new EntityCollection<T>(new[] {entity as T});
+            if (null == entityCol) return new EntityCollection<T>(new[] { entity as T });
             if (null == entity) return new EntityCollection<T>(entityCol);
 
             var entCol = new EntityCollection<T>();
@@ -107,7 +109,7 @@ namespace Parser
             if (null == entity) return new EntityCollection<T>(entityCol);
 
             var idxEnt = entityCol & entity;
-            if (idxEnt == -1) return new EntityCollection<T>(entityCol);
+            if (-1 == idxEnt) return new EntityCollection<T>(entityCol);
 
             var entCol = new EntityCollection<T>();
             for (var index = 0; index < entityCol.Count - 1; ++index) entCol.Add(entityCol[index + ((index < idxEnt) ? 0 : 1)]);
