@@ -1,172 +1,141 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+
 namespace Parser
 {
-    using System;
-    using System.Text;
-    using System.Runtime.CompilerServices;
-    using System.Collections;
-    using System.Collections.ObjectModel;
-    using System.Collections.Generic;
-
     public sealed class EntityCollection<T> : Collection<T>, ISet where T : Entity
     {
         #region Constructors
-        public EntityCollection()
-            : base()
-        { }
+
+        public EntityCollection() {}
 
         public EntityCollection(IList<T> list)
-            : base(list)
-        { }
-
+            : base(list) {}
 
         public EntityCollection(EntityCollection<T> entityCol)
-            : base(entityCol.Items)
-        { }
+            : base(entityCol.Items) {}
 
         #endregion
 
         public List<T> List
         {
-            get { return (List<T>)Items; }
+            get { return (List<T>) Items; }
         }
 
         #region Range
 
         public void AddRange(IEnumerable<T> collection)
         {
-            if (collection != default(IEnumerable<T>))
-            {
-                ((List<T>)Items).AddRange(collection);
-            }
+            if (collection != default(IEnumerable<T>)) ((List<T>) Items).AddRange(collection);
         }
 
         public void ForEach(Action<T> action)
         {
-            ((List<T>)Items).ForEach(action);
+            ((List<T>) Items).ForEach(action);
         }
 
         public EntityCollection<T> GetRange(int index, int count)
         {
             if (count <= 0) return default(EntityCollection<T>);
 
-            EntityCollection<T> subEntityCol;
-
-            //subEntityCol = new EntityCollection<T>();
+            //var subEntityCol = new EntityCollection<T>();
             //for (int idx = 0; idx < count; ++idx)
             //{
             //    subEntityCol.Add(this[index + idx]);
             //}
 
-            subEntityCol = new EntityCollection<T>(((List<T>)Items).GetRange(index, count));
+            var subEntityCol = new EntityCollection<T>(((List<T>) Items).GetRange(index, count));
 
             return subEntityCol;
         }
+
         public EntityCollection<T> GetRange(int index)
         {
             return GetRange(index, Count - index);
         }
+
         #endregion
 
         #region Find & Index
 
         public bool Exists(Predicate<T> match)
         {
-            return ((List<T>)Items).Exists(match);
+            return ((List<T>) Items).Exists(match);
         }
 
         public T Find(Predicate<T> match)
         {
-            return ((List<T>)Items).Find(match);
+            return ((List<T>) Items).Find(match);
         }
+
         public T FindLast(Predicate<T> match)
         {
-            return ((List<T>)Items).FindLast(match);
+            return ((List<T>) Items).FindLast(match);
         }
 
         public int FindIndex(int startIndex, int count, Predicate<T> match)
         {
-            return ((List<T>)Items).FindIndex(startIndex, count, match);
+            return ((List<T>) Items).FindIndex(startIndex, count, match);
         }
+
         public int FindIndex(int startIndex, Predicate<T> match)
         {
-            return ((List<T>)Items).FindIndex(startIndex, match);
+            return ((List<T>) Items).FindIndex(startIndex, match);
         }
+
         public int FindIndex(Predicate<T> match)
         {
-            return ((List<T>)Items).FindIndex(match);
+            return ((List<T>) Items).FindIndex(match);
         }
 
         public int FindLastIndex(int startIndex, int count, Predicate<T> match)
         {
-            return ((List<T>)Items).FindLastIndex(startIndex, count, match);
+            return ((List<T>) Items).FindLastIndex(startIndex, count, match);
         }
+
         public int FindLastIndex(int startIndex, Predicate<T> match)
         {
-            return ((List<T>)Items).FindLastIndex(startIndex, match);
+            return ((List<T>) Items).FindLastIndex(startIndex, match);
         }
+
         public int FindLastIndex(Predicate<T> match)
         {
-            return ((List<T>)Items).FindLastIndex(match);
+            return ((List<T>) Items).FindLastIndex(match);
         }
 
         public int IndexOf(T item, int index, int count)
         {
-            return ((List<T>)Items).IndexOf(item, index, count);
+            return ((List<T>) Items).IndexOf(item, index, count);
         }
+
         public int IndexOf(T item, int index)
         {
-            return ((List<T>)Items).IndexOf(item, index);
+            return ((List<T>) Items).IndexOf(item, index);
         }
-        new public int IndexOf(T item)
+
+        public new int IndexOf(T item)
         {
-            return ((List<T>)Items).IndexOf(item);
+            return ((List<T>) Items).IndexOf(item);
         }
 
         public int LastIndexOf(T item, int index, int count)
         {
-            return ((List<T>)Items).LastIndexOf(item, index, count);
+            return ((List<T>) Items).LastIndexOf(item, index, count);
         }
+
         public int LastIndexOf(T item, int index)
         {
-            return ((List<T>)Items).LastIndexOf(item, index);
+            return ((List<T>) Items).LastIndexOf(item, index);
         }
+
         public int LastIndexOf(T item)
         {
-            return ((List<T>)Items).LastIndexOf(item);
-        }
-        #endregion
-
-        public bool Equals(EntityCollection<T> entityCol) { return this == entityCol; }
-
-        public bool NotEquals(EntityCollection<T> entityCol) { return this != entityCol; }
-
-        public bool Equals(params T[] arrEntity) { return Equals(new EntityCollection<T>(arrEntity)); }
-
-        public bool NotEquals(params T[] arrEntity) { return NotEquals(new EntityCollection<T>(arrEntity)); }
-
-        #region Overrided Methods
-
-        public override bool Equals(Object obj)
-        {
-            return obj is EntityCollection<T> ? Equals(obj as EntityCollection<T>) : base.Equals(obj);
+            return ((List<T>) Items).LastIndexOf(item);
         }
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode() ^ base.GetHashCode();
-        }
-
-        public override String ToString()
-        {
-            StringBuilder strBuild = new StringBuilder();
-            foreach (Entity entity in this)
-            {
-                strBuild.Append(entity);
-                strBuild.Append(" ");
-            }
-            strBuild.Remove(strBuild.Length - 1, 1);
-            return strBuild.ToString();
-        }
         #endregion
 
         #region ISet Members
@@ -174,7 +143,7 @@ namespace Parser
         public ISet RemoveRedundancy()
         {
             int count = Count;
-            for (int index = 0; index < count - 1; )
+            for (int index = 0; index < count - 1;)
             {
                 int findIdx;
                 //for (findIdx = index + 1; findIdx < count; ++findIdx)
@@ -190,28 +159,31 @@ namespace Parser
                 ++index;
             }
             return this;
-
         }
+
         #endregion
 
         #region Static Methods
 
         //public static implicit operator EntityCollection<T>(T entity) { return new EntityCollection<T>(new T[] { entity }); }
-        public static implicit operator EntityCollection<T>(T[] arrEntity) { return new EntityCollection<T>(new List<T>(arrEntity)); }
+        public static implicit operator EntityCollection<T>(T[] arrEntity)
+        {
+            return new EntityCollection<T>(new List<T>(arrEntity));
+        }
 
-        public static explicit operator T[](EntityCollection<T> entityCol) { return ((List<T>)entityCol.Items).ToArray(); }
+        public static explicit operator T[](EntityCollection<T> entityCol)
+        {
+            return ((List<T>) entityCol.Items).ToArray();
+        }
 
         public static EntityCollection<T> operator +(EntityCollection<T> entityCol, Entity entity)
         {
-            if (entityCol == default(EntityCollection<T>)) return new EntityCollection<T>(new T[] { (T)entity });
-            if (entity == default(Entity)) return new EntityCollection<T>(entityCol);
+            if (null == entityCol) return new EntityCollection<T>(new[] {entity as T});
+            if (null == entity) return new EntityCollection<T>(entityCol);
 
-            EntityCollection<T> combineCol = new EntityCollection<T>();
+            var combineCol = new EntityCollection<T>();
             int count = entityCol.Count;
-            for (int index = 0; index < count + 1; ++index)
-            {
-                combineCol.Add((index < count) ? entityCol[index] : (T)entity);
-            }
+            for (int index = 0; index < count + 1; ++index) combineCol.Add((index < count) ? entityCol[index] : (T) entity);
             return combineCol;
         }
 
@@ -219,13 +191,10 @@ namespace Parser
         {
             if (entityCol1 == default(EntityCollection<T>)) return new EntityCollection<T>(entityCol2);
             if (entityCol2 == default(EntityCollection<T>)) return new EntityCollection<T>(entityCol1);
-            int count1 = entityCol1.Count;
-            int count2 = entityCol2.Count;
-            EntityCollection<T> combineCol = new EntityCollection<T>();
-            for (int index = 0; index < count1 + count2; ++index)
-            {
-                combineCol.Add((index < count1) ? entityCol1[index] : entityCol2[index - count1]);
-            }
+            var count1 = entityCol1.Count;
+            var count2 = entityCol2.Count;
+            var combineCol = new EntityCollection<T>();
+            for (var index = 0; index < count1 + count2; ++index) combineCol.Add((index < count1) ? entityCol1[index] : entityCol2[index - count1]);
             return combineCol;
         }
 
@@ -234,15 +203,13 @@ namespace Parser
             if (entityCol == default(EntityCollection<T>)) return default(EntityCollection<T>);
             if (entity == default(Entity)) return new EntityCollection<T>(entityCol);
 
-            int findIdx = entityCol & entity;
+            var findIdx = entityCol & entity;
             if (findIdx == -1) return new EntityCollection<T>(entityCol);
 
-            EntityCollection<T> removeCol = new EntityCollection<T>();
-            int count = entityCol.Count;
-            for (int index = 0; index < count - 1; ++index)
-            {
+            var removeCol = new EntityCollection<T>();
+            var count = entityCol.Count;
+            for (var index = 0; index < count - 1; ++index) 
                 removeCol.Add(entityCol[index + ((index < findIdx) ? 0 : 1)]);
-            }
             return removeCol;
         }
 
@@ -251,20 +218,17 @@ namespace Parser
             if (entityCol1 == default(EntityCollection<T>)) return default(EntityCollection<T>);
             if (entityCol2 == default(EntityCollection<T>)) return new EntityCollection<T>(entityCol1);
 
-            int findIdx = 0;
-            foreach (Entity entity in entityCol2)
+            var findIdx = 0;
+            foreach (var entity in entityCol2)
             {
                 findIdx = entityCol1 & entity;
                 if (findIdx != -1) break;
             }
             if (findIdx == -1) return new EntityCollection<T>(entityCol1);
 
-            EntityCollection<T> removeCol = new EntityCollection<T>();
+            var removeCol = new EntityCollection<T>();
             int count = entityCol1.Count;
-            for (int index = 0; index < count - 1; ++index)
-            {
-                removeCol.Add(entityCol1[index + ((index < findIdx) ? 0 : 1)]);
-            }
+            for (int index = 0; index < count - 1; ++index) removeCol.Add(entityCol1[index + ((index < findIdx) ? 0 : 1)]);
             return removeCol;
         }
 
@@ -277,12 +241,9 @@ namespace Parser
 
         public static bool operator ==(EntityCollection<T> entityCol, Entity entity)
         {
-            if (Object.ReferenceEquals(entityCol, entity)) return true;
-            if (null == (Object)entityCol || null == (Object)entity) return false;
+            if (ReferenceEquals(null, entityCol) || ReferenceEquals(null, entity)) return false;
 
-            if (entityCol.Count != 1) return false;
-
-            return (entityCol[0] == entity);
+            return (entityCol.Count == 1) && entityCol[0] == entity;
         }
 
         public static bool operator !=(EntityCollection<T> entityCol, Entity entity)
@@ -290,23 +251,36 @@ namespace Parser
             return !(entityCol == entity);
         }
 
+        public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2)
+        {
+            if (ReferenceEquals(entityCol1, entityCol2)) return true;
+            if (ReferenceEquals(null, entityCol1) || ReferenceEquals(null, entityCol2)) return false;
+
+            if (entityCol1.Count != entityCol2.Count) return false;
+
+            //for (var index = 0; index < entityCol1.Count; ++index) 
+            //    if (entityCol1[index] != entityCol2[index]) 
+            //        return false;
+            //return true;
+
+            return !entityCol1.Where((entity, index) => entity != entityCol2[index]).Any();
+        }
+
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2)
+        {
+            return !(entityCol1 == entityCol2);
+        }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2)
         {
-            if (Object.ReferenceEquals(entityCol1, entityCol2)) return true;
-            if (null == (Object)entityCol1 || null == (Object)entityCol2) return false;
+            if (ReferenceEquals(entityCol1, entityCol2)) return true;
+            if (ReferenceEquals(null, entityCol1) || ReferenceEquals(null, entityCol2)) return false;
 
-            int length1 = entityCol1.Count;
-            int length2 = entityCol2.Count;
+            var length1 = entityCol1.Count;
+            var length2 = entityCol2.Count;
             if (length1 != length2) return false;
 
-            for (int index = 0; index < length1; ++index)
-            {
-                if (entityCol1[index] != entityCol2[index])
-                {
-                    return false;
-                }
-            }
+            for (int index = 0; index < length1; ++index) if (entityCol1[index] != entityCol2[index]) return false;
             return true;
         }
 
@@ -317,20 +291,14 @@ namespace Parser
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2)
         {
-            if (Object.ReferenceEquals(entityCol1, entityCol2)) return true;
-            if (null == (Object)entityCol1 || null == (Object)entityCol2) return false;
+            if (ReferenceEquals(entityCol1, entityCol2)) return true;
+            if (ReferenceEquals(null, entityCol1) || ReferenceEquals(null, entityCol2)) return false;
 
-            int length1 = entityCol1.Count;
-            int length2 = entityCol2.Count;
+            var length1 = entityCol1.Count;
+            var length2 = entityCol2.Count;
             if (length1 != length2) return false;
 
-            for (int index = 0; index < length1; ++index)
-            {
-                if (entityCol1[index] != entityCol2[index])
-                {
-                    return false;
-                }
-            }
+            for (var index = 0; index < length1; ++index) if (entityCol1[index] != entityCol2[index]) return false;
             return true;
         }
 
@@ -338,12 +306,60 @@ namespace Parser
         {
             return !(entityCol1 == entityCol2);
         }
+
         #endregion
+
+        #endregion
+
+        public bool Equals(EntityCollection<T> entityCol)
+        {
+            return this == entityCol;
+        }
+
+        public bool NotEquals(EntityCollection<T> entityCol)
+        {
+            return this != entityCol;
+        }
+
+        public bool Equals(params T[] arrEntity)
+        {
+            return Equals(new EntityCollection<T>(arrEntity));
+        }
+
+        public bool NotEquals(params T[] arrEntity)
+        {
+            return NotEquals(new EntityCollection<T>(arrEntity));
+        }
+
+        #region Overrided Methods
+
+        public override bool Equals(Object obj)
+        {
+            return obj is EntityCollection<T> ? Equals(obj as EntityCollection<T>) : base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return ToString().GetHashCode() ^ base.GetHashCode();
+        }
+
+        public override String ToString()
+        {
+            var strBuild = new StringBuilder();
+            foreach (Entity entity in this)
+            {
+                strBuild.Append(entity);
+                strBuild.Append(" ");
+            }
+            strBuild.Remove(strBuild.Length - 1, 1);
+            return strBuild.ToString();
+        }
 
         #endregion
     }
 
     #region CollectionBase, ISet where T : Entity
+
     /*
     public sealed class EntityCollection<T> : CollectionBase, ISet where T : Entity
     {
@@ -490,5 +506,6 @@ namespace Parser
         #endregion
     }
     */
+
     #endregion
 }
