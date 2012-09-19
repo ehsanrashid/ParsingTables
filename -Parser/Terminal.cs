@@ -8,11 +8,9 @@ namespace Parser
             : base(title)
         { }
 
-        public Terminal()
-            : base()
-        { }
+        public Terminal() { }
 
-        public Terminal(Terminal terminal)
+        public Terminal(Entity terminal)
             : base(terminal)
         { }
 

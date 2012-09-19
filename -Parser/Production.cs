@@ -9,8 +9,8 @@ namespace Parser
         #region Constructors
         public Production(NonTerminal producer, EntityCollection<Entity> product)
         {
-            _producer = producer;
-            _product = product;
+            Producer = producer;
+            Product = product;
         }
 
         public Production(NonTerminal producer) : this(producer, default(EntityCollection<Entity>)) { }
@@ -21,13 +21,12 @@ namespace Parser
         
         #endregion
 
-        private NonTerminal _producer;       // LeftHand Side (Producer)
-        public NonTerminal Producer { get { return _producer; } }
+        // LeftHand Side (Producer)
+        public NonTerminal Producer { get; private set; }
 
-        private EntityCollection<Entity> _product;  // RightHand Side (Product)
-        public EntityCollection<Entity> Product { get { return _product; } }
+        public EntityCollection<Entity> Product { get; private set; }
 
-        public int Count { get { return _product.Count; } }
+        public int Count { get { return Product.Count; } }
 
         public bool Equals(Production production) { return this == production; }
 
@@ -37,11 +36,11 @@ namespace Parser
 
         public static bool operator ==(Production production1, Production production2)
         {
-            if (Object.ReferenceEquals(production1, production2)) return true;
-            if (null == (Object)production1 || null == (Object)production2) return false;
+            if (ReferenceEquals(production1, production2)) return true;
+            if (ReferenceEquals(null, production1) || ReferenceEquals(null, production2)) return false;
             return
-                production1._producer == production2._producer
-             && production1._product == production2._product;
+                (production1.Producer == production2.Producer)
+             && (production1.Product == production2.Product);
         }
 
         public static bool operator !=(Production production1, Production production2)
@@ -65,7 +64,7 @@ namespace Parser
 
         public override String ToString()
         {
-            return String.Format("{0} --> {1}", _producer, _product);
+            return String.Concat(Producer, " --> ", Product);
         } 
         #endregion
 
@@ -73,7 +72,7 @@ namespace Parser
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_product).GetEnumerator();
+            return ((IEnumerable)Product).GetEnumerator();
         }
 
         #endregion
@@ -84,8 +83,8 @@ namespace Parser
         {
             return new Production
                 (
-                    new NonTerminal(_producer),
-                    new EntityCollection<Entity>(_product)
+                    new NonTerminal(Producer),
+                    new EntityCollection<Entity>(Product)
                 );
         }
 
@@ -131,9 +130,9 @@ namespace Parser
 
         public override String ToString()
         {
-            StringBuilder sbProd = new StringBuilder(Producer + " --> ");
-            int length = Count;
-            for (int index = 0; index < length; ++index)
+            var sbProd = new StringBuilder(Producer + " --> ");
+            var length = Count;
+            for (var index = 0; index < length; ++index)
             {
                 if (index == DotPosition)
                 {
@@ -151,9 +150,7 @@ namespace Parser
 
     public class CLRProduction : SLRProduction
     {
-        private EntityCollection<Terminal> _lookAheads;
-        public EntityCollection<Terminal> LookAheads
-        { get { return _lookAheads; } }
+        public EntityCollection<Terminal> LookAheads { get; private set; }
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol, int posDot, EntityCollection<Terminal> lookAheads)
             : base(nonTerm, entityCol, posDot)
@@ -169,7 +166,7 @@ namespace Parser
                     }
                 }
             */
-            _lookAheads = lookAheads;
+            LookAheads = lookAheads;
         }
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol, EntityCollection<Terminal> lookAheads) : this(nonTerm, entityCol, default(int), lookAheads) { }
@@ -180,7 +177,7 @@ namespace Parser
 
         public bool Equals(CLRProduction prod)
         {
-            return base.Equals(prod) && _lookAheads == prod.LookAheads;
+            return base.Equals(prod) && LookAheads == prod.LookAheads;
         }
 
         public bool NotEquals(CLRProduction prod)
@@ -190,16 +187,16 @@ namespace Parser
 
         public override String ToString()
         {
-            StringBuilder sbProd = new StringBuilder();
+            var sbProd = new StringBuilder();
             sbProd.Append(", ");
-            String entitySep = " | ";
-            foreach (Terminal terminal in _lookAheads)
+            const String entitySep = " | ";
+            foreach (var terminal in LookAheads)
             {
                 sbProd.Append(terminal);
                 sbProd.Append(entitySep);
             }
             sbProd.Remove(sbProd.Length - entitySep.Length, entitySep.Length);
-            return base.ToString() + sbProd.ToString();
+            return String.Concat(base.ToString(), sbProd);
         }
     }
 }
