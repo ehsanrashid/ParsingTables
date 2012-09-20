@@ -23,8 +23,8 @@ namespace Parser
 
         public static bool operator ==(GotoEntry gotoEntry1, GotoEntry gotoEntry2)
         {
-            if (Object.ReferenceEquals(gotoEntry1, gotoEntry2)) return true;
-            if (null == (Object) gotoEntry1 || null == (Object) gotoEntry2) return false;
+            if (ReferenceEquals(gotoEntry1, gotoEntry2)) return true;
+            if (ReferenceEquals(null, gotoEntry1) || ReferenceEquals(null, gotoEntry2)) return false;
 
             return gotoEntry1.I == gotoEntry2.I
                 && gotoEntry1.X == gotoEntry2.X

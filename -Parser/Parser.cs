@@ -100,7 +100,7 @@ namespace Parser
                 _closureCol = new ClosureCollection(new Closure[] { new SLRClosure(GotoTitle(), _grammar, new[] { _prods }) });
 
                 ++_gotoCount;
-                for (int c = 0; c < _closureCol.Count; ++c)
+                for (var c = 0; c < _closureCol.Count; ++c)
                 {
                     var closure = (SLRClosure) _closureCol[c];
                     foreach (var entity in _entityColO - (Terminal) "$")
@@ -108,7 +108,7 @@ namespace Parser
                         var gotoClosure = closure.GoToEntity(entity);
                         if (!gotoClosure.IsNull)
                         {
-                            int index =
+                            var index =
                                 //_closureCol.List.FindIndex((Closure clr) => (clr == gotoClosure));
                                 _closureCol.List.IndexOf(gotoClosure);
                             if (index == -1)
@@ -123,9 +123,9 @@ namespace Parser
                                 gotoClosure = _closureCol[index];
                             }
 
-                            int length = (_gotoTable == default(GotoEntry[])) ? 0 : _gotoTable.Length;
+                            var length = (_gotoTable == default(GotoEntry[])) ? 0 : _gotoTable.Length;
                             var newTable = new GotoEntry[length + 1];
-                            for (int g = 0; g < length; ++g)
+                            for (var g = 0; g < length; ++g)
                             {
                                 newTable[g] = _gotoTable[g];
                             }
@@ -146,7 +146,7 @@ namespace Parser
                     //Shift
                     for (var t = 0; t < terminalLength; ++t)
                     {
-                        foreach (GotoEntry gotoEntity in _gotoTable)
+                        foreach (var gotoEntity in _gotoTable)
                         {
                             if (gotoEntity.X == TerminalCol[t] && gotoEntity.I == _closureCol[c])
                             {
@@ -179,9 +179,9 @@ namespace Parser
                     }
 
                     // Goto
-                    for (int n = 0; n < NonTerminalCol.Count; ++n)
+                    for (var n = 0; n < NonTerminalCol.Count; ++n)
                     {
-                        foreach (GotoEntry gotoEntity in _gotoTable)
+                        foreach (var gotoEntity in _gotoTable)
                         {
                             if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == _closureCol[c])
                             {
@@ -272,7 +272,7 @@ namespace Parser
             NonTerminalCol = _grammar.NonTerminals;
 
             // removing augmented entity
-            Entity augment = EntityCol[0];
+            var augment = EntityCol[0];
             _entityColO = EntityCol - augment;
             NonTerminalCol.Remove((NonTerminal) augment);
 
@@ -320,7 +320,7 @@ namespace Parser
                         }
                         var length = _gotoTable.Length;
                         var newTable = new GotoEntry[length + 1];
-                        for (int g = 0; g < length; ++g)
+                        for (var g = 0; g < length; ++g)
                         {
                             newTable[g] = _gotoTable[g];
                         }
@@ -336,7 +336,7 @@ namespace Parser
 
             for (var c = 0; c < _closureCol.Count; ++c)
             {
-                int terminalLength = TerminalCol.Count;
+                var terminalLength = TerminalCol.Count;
                 //Shift
                 for (var t = 0; t < terminalLength; ++t)
                 {
@@ -351,7 +351,7 @@ namespace Parser
                 }
 
                 //Reduce
-                for (int p = 0; p < _closureCol[c].Count; ++p)
+                for (var p = 0; p < _closureCol[c].Count; ++p)
                 {
                     SLRProduction production = _closureCol[c][p];
                     if (production.DotPosition == (production.Count - 1)

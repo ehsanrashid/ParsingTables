@@ -202,7 +202,7 @@ namespace Parser
             var remove = new ClosureCollection(closureCol1);
             //foreach (var closure in closureCol2)
             //{
-            //    int index =
+            //    var index =
             //        //closureCol1.FindIndex(common, (Closure clr) => (clr == closure));
             //        closureCol1.IndexOf(closure, common);
             //    if (index != -1)
@@ -212,7 +212,7 @@ namespace Parser
             //    }
             //}
 
-            foreach (int index in closureCol2.Select(closure => closureCol1.IndexOf(closure, common)).Where(index => index != -1))
+            foreach (var index in closureCol2.Select(closure => closureCol1.IndexOf(closure, common)).Where(index => index != -1))
             {
                 remove.RemoveAt(index - common);
                 ++common;

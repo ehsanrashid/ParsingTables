@@ -142,10 +142,10 @@ namespace Parser
 
         public ISet RemoveRedundancy()
         {
-            int count = Count;
-            for (int index = 0; index < count - 1;)
+            var count = Count;
+            for (var index = 0; index < count - 1; )
             {
-                int findIdx;
+                var findIdx = -1;
                 //for (findIdx = index + 1; findIdx < count; ++findIdx)
                 //    if (this[index] == this[findIdx])
                 //findIdx = FindIndex(index + 1, (T entity) => (entity == this[index]));
