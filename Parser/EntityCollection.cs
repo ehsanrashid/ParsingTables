@@ -99,7 +99,8 @@ namespace Parser
 
             var entCol = new EntityCollection<T>();
             var count = entityCol.Count;
-            for (var index = 0; index < count + 1; ++index) entCol.Add((index < count) ? entityCol[index] : entity as T);
+            for (var index = 0; index < count + 1; ++index)
+                entCol.Add((index < count) ? entityCol[index] : entity as T);
             return entCol;
         }
 
@@ -112,7 +113,8 @@ namespace Parser
             if (-1 == idxEnt) return new EntityCollection<T>(entityCol);
 
             var entCol = new EntityCollection<T>();
-            for (var index = 0; index < entityCol.Count - 1; ++index) entCol.Add(entityCol[index + ((index < idxEnt) ? 0 : 1)]);
+            for (var index = 0; index < entityCol.Count - 1; ++index)
+                entCol.Add(entityCol[index + ((index < idxEnt) ? 0 : 1)]);
             return entCol;
         }
 
@@ -124,7 +126,8 @@ namespace Parser
             var count1 = entityCol1.Count;
             var count2 = entityCol2.Count;
             var entityCol = new EntityCollection<T>();
-            for (var index = 0; index < count1 + count2; ++index) entityCol.Add((index < count1) ? entityCol1[index] : entityCol2[index - count1]);
+            for (var index = 0; index < count1 + count2; ++index)
+                entityCol.Add((index < count1) ? entityCol1[index] : entityCol2[index - count1]);
             return entityCol;
         }
 
@@ -155,7 +158,8 @@ namespace Parser
             return entCol;
         }
 
-        public static int operator &(EntityCollection<T> entityCol, Entity entity) { return entityCol.IndexOf(entity as T); }
+        public static int operator &(EntityCollection<T> entityCol, Entity entity)
+        { return entityCol.IndexOf(entity as T); }
 
         public static bool operator ==(EntityCollection<T> entityCol, Entity entity)
         {
@@ -163,7 +167,8 @@ namespace Parser
             return (entityCol.Count == 1) && entityCol[0] == entity;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol, Entity entity) { return !(entityCol == entity); }
+        public static bool operator !=(EntityCollection<T> entityCol, Entity entity)
+        { return !(entityCol == entity); }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2)
         {
@@ -172,11 +177,14 @@ namespace Parser
 
             if (entityCol1.Count != entityCol2.Count) return false;
 
-            for (var index = 0; index < entityCol1.Count; ++index) if (entityCol1[index] != entityCol2[index]) return false;
+            for (var index = 0; index < entityCol1.Count; ++index)
+                if (entityCol1[index] != entityCol2[index])
+                    return false;
             return true;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2) { return !(entityCol1 == entityCol2); }
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<T> entityCol2)
+        { return !(entityCol1 == entityCol2); }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2)
         {
@@ -189,7 +197,8 @@ namespace Parser
             return true;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2) { return !(entityCol1 == entityCol2); }
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<Terminal> entityCol2)
+        { return !(entityCol1 == entityCol2); }
 
         public static bool operator ==(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2)
         {
@@ -202,7 +211,8 @@ namespace Parser
             return true;
         }
 
-        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2) { return !(entityCol1 == entityCol2); }
+        public static bool operator !=(EntityCollection<T> entityCol1, EntityCollection<NonTerminal> entityCol2)
+        { return !(entityCol1 == entityCol2); }
 
         #endregion
     }

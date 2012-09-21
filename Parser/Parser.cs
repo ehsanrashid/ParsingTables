@@ -90,7 +90,7 @@ namespace Parser
                 _gotoCount = 0;
                 _dotCount = 0;
 
-                ClosureCol = new ClosureCollection(new Closure[] {new SLRClosure(GotoTitle(), grammar, new[] {_prods})});
+                ClosureCol = new ClosureCollection(new Closure[] { new SLRClosure(GotoTitle(), grammar, new[] { _prods }) });
 
                 // TODO:: closure production is wrong
                 ++_gotoCount;
@@ -129,7 +129,7 @@ namespace Parser
                 }
 
                 // LR Table
-                _tableForm = new String[EntityCol.Count,ClosureCol.Count];
+                _tableForm = new String[EntityCol.Count, ClosureCol.Count];
 
                 for (var c = 0; c < ClosureCol.Count; ++c)
                 {
@@ -158,14 +158,18 @@ namespace Parser
                         if (production.DotPosition != production.Count) continue;
 
                         var followCol = grammar.Follow(production.Producer);
-                        if (null == followCol) continue;
+                        if (default(EntityCollection<Entity>) == followCol) continue;
 
                         //followCol.Remove( (Terminal)"$" );
-                        foreach (var follow in followCol) _tableForm[TerminalCol & follow, c] = "r" + (grammar & production);
+                        foreach (var follow in followCol)
+                            _tableForm[TerminalCol & follow, c] = "r" + (grammar & production);
                     }
 
                     // Goto
-                    for (var n = 0; n < NonTerminalCol.Count; ++n) foreach (var gotoEntity in _gotoTable) if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == ClosureCol[c]) _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
+                    for (var n = 0; n < NonTerminalCol.Count; ++n)
+                        foreach (var gotoEntity in _gotoTable)
+                            if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == ClosureCol[c])
+                                _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
                 }
             }
             catch (Exception exp)
@@ -183,7 +187,8 @@ namespace Parser
             sb.AppendLine(SEPARATOR);
             sb.AppendLine("Done.... " + (_gotoCount - 1) + " states achieved. " + _dotCount + " Dots");
 
-            foreach (var gotoE in _gotoTable) sb.AppendLine(gotoE.ToString());
+            foreach (var gotoE in _gotoTable)
+                sb.AppendLine(gotoE.ToString());
 
             sb.Append(SEPARATOR);
             return sb.ToString();
@@ -195,8 +200,10 @@ namespace Parser
             sb.AppendLine();
             sb.Append("\t");
 
-            foreach (var terminal in TerminalCol.Entities) sb.Append(String.Concat("◄ ", terminal, " ►\t"));
-            foreach (var nonTerminal in NonTerminalCol.Entities) sb.Append(String.Concat("◄ ", nonTerminal, " ►\t"));
+            foreach (var terminal in TerminalCol.Entities)
+                sb.Append(String.Concat("◄ ", terminal, " ►\t"));
+            foreach (var nonTerminal in NonTerminalCol.Entities)
+                sb.Append(String.Concat("◄ ", nonTerminal, " ►\t"));
             for (var c = 0; c < ClosureCol.Count; ++c)
             {
                 sb.AppendLine();
@@ -204,7 +211,7 @@ namespace Parser
                 for (var e = 0; e < _entityColO.Count; ++e) // +1 for '$'
                     //sbSLRTable.Append("\t " + (String.IsNullOrEmpty(_tableForm[ e, c ]) ? "." : _tableForm[ e, c ]));
                     sb.Append(String.Format("\t  {0} ",
-                                            (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
+                            (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
             }
             sb.AppendLine();
             sb.Append(SEPARATOR);
@@ -250,13 +257,13 @@ namespace Parser
 
             //Cloure_GoToTable
             _prods = new CLRProduction(grammar[0].Producer, grammar[0].Product,
-                                       new EntityCollection<Terminal>(new[] {(Terminal) "$"}));
+                                       new EntityCollection<Terminal>(new[] { (Terminal) "$" }));
 
             _gotoCount = 0;
             _dotCount = 0;
 
             _closureCol =
-                new ClosureCollection(new Closure[] {new CLRClosure(GotoTitle(), grammar, new SLRProduction[] {_prods})});
+                new ClosureCollection(new Closure[] { new CLRClosure(GotoTitle(), grammar, new SLRProduction[] { _prods }) });
 
             ++_gotoCount;
             _gotoTable = new GotoEntry[0];
@@ -273,7 +280,7 @@ namespace Parser
                         var index =
                             //_closureCol.List.FindIndex((Closure clr) => (clr == gotoClosure));
                             _closureCol.Closures.IndexOf(gotoClosure);
-                        if (index == -1)
+                        if (-1 == index)
                         {
                             // add new Goto State
                             gotoClosure.Title = GotoTitle();
@@ -288,7 +295,7 @@ namespace Parser
                             //gotoClosure = closureC;
 
                             var closureC = gotoClosure as CLRClosure;
-                            if (null != closureC) closureC.AddLookAhead(_closureCol[index].SLRProductions.ToArray());
+                            if (default(Closure) != closureC) closureC.AddLookAhead(_closureCol[index].SLRProductions.ToArray());
                             gotoClosure.Title = _closureCol[index].Title;
                         }
 
@@ -304,7 +311,7 @@ namespace Parser
             }
 
             // LR Table
-            _tableForm = new String[EntityCol.Count,_closureCol.Count];
+            _tableForm = new String[EntityCol.Count, _closureCol.Count];
 
             for (var c = 0; c < _closureCol.Count; ++c)
             {
@@ -337,7 +344,10 @@ namespace Parser
                 }
 
                 // Goto
-                for (var n = 0; n < NonTerminalCol.Count; ++n) foreach (var gotoEntity in _gotoTable) if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == _closureCol[c]) _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
+                for (var n = 0; n < NonTerminalCol.Count; ++n)
+                    foreach (var gotoEntity in _gotoTable)
+                        if (gotoEntity.X == NonTerminalCol[n] && gotoEntity.I == _closureCol[c])
+                            _tableForm[(terminalLength + 0) + n, c] = gotoEntity.Goto.Title.Split('[', ']')[1];
             }
         }
 
@@ -369,7 +379,7 @@ namespace Parser
                 for (var e = 0; e < _entityColO.Count; ++e) // +1 for '$'
                     //sbSLRTable.Append("\t " + (String.IsNullOrEmpty(_tableForm[ e, c ]) ? "." : _tableForm[ e, c ]));
                     sb.Append(String.Format("\t  {0} ",
-                                            (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
+                             (String.IsNullOrEmpty(_tableForm[e, c]) ? "." : _tableForm[e, c])));
             }
             sb.AppendLine();
             sb.Append(SEPARATOR);

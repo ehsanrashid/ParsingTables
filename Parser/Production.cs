@@ -25,7 +25,7 @@ namespace Parser
         public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product) { }
 
         public Production() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
-        
+
         #endregion
 
 
@@ -66,8 +66,7 @@ namespace Parser
         {
             if (ReferenceEquals(production1, production2)) return true;
             if (ReferenceEquals(null, production1) || ReferenceEquals(null, production2)) return false;
-            return
-                (production1.Producer == production2.Producer)
+            return (production1.Producer == production2.Producer)
                 && (production1.Product == production2.Product);
         }
 
@@ -111,7 +110,9 @@ namespace Parser
                 if (index == DotPosition) sb.Append(".");
                 sb.Append(Product[index] + " ");
             }
-            return (length == DotPosition) ? sb.Append(".").ToString() : sb.ToString();
+            return (length == DotPosition)
+                       ? sb.Append(".").ToString()
+                       : sb.ToString();
         }
     }
 
@@ -163,7 +164,7 @@ namespace Parser
             {
                 if (first) first = false;
                 else sb.Append(" | "); // Entity Sep
-                
+
                 sb.Append(terminal);
             }
 

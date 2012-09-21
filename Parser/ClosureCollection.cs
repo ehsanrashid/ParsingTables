@@ -59,7 +59,8 @@ namespace Parser
 
         #region Overrided
 
-        public override bool Equals(Object obj) { return (obj is ClosureCollection) ? Equals(obj as ClosureCollection) : base.Equals(obj); }
+        public override bool Equals(Object obj) 
+        { return (obj is ClosureCollection) ? Equals(obj as ClosureCollection) : base.Equals(obj); }
 
         public override int GetHashCode() { return ToString().GetHashCode() ^ base.GetHashCode(); }
 
@@ -125,7 +126,8 @@ namespace Parser
 
             if (closureCol1.Count != closureCol2.Count) return false;
 
-            for (var index = 0; index < closureCol1.Count; ++index) if (closureCol1[index] != closureCol2[index]) return false;
+            for (var index = 0; index < closureCol1.Count; ++index)
+                if (closureCol1[index] != closureCol2[index]) return false;
             return true;
         }
 
