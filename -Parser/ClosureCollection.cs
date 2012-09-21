@@ -1,9 +1,9 @@
-﻿namespace Parser
+﻿using System.Linq;
+
+namespace Parser
 {
     using System;
     using System.Text;
-    using System.Runtime.CompilerServices;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -11,9 +11,7 @@
     {
         #region Constructors
 
-        public ClosureCollection()
-            : base()
-        { }
+        public ClosureCollection() { }
 
         public ClosureCollection(IList<Closure> list)
             : base(list)
@@ -28,7 +26,7 @@
 
         public List<Closure> List
         {
-            get { return (List<Closure>)Items; }
+            get { return (List<Closure>) Items; }
         }
 
         #region Range
@@ -37,28 +35,26 @@
         {
             if (collection != default(IEnumerable<Closure>))
             {
-                ((List<Closure>)Items).AddRange(collection);
+                ((List<Closure>) Items).AddRange(collection);
             }
         }
 
         public void ForEach(Action<Closure> action)
         {
-            ((List<Closure>)Items).ForEach(action);
+            ((List<Closure>) Items).ForEach(action);
         }
 
         public ClosureCollection GetRange(int index, int count)
         {
             if (count <= 0) return default(ClosureCollection);
 
-            ClosureCollection subClosureCol;
-
-            //subClosureCol = new ClosureCollection();
+            //var subClosureCol = new ClosureCollection();
             //for (int idx = 0; idx < count; ++idx)
             //{
             //    subClosureCol.Add(this[index + idx]);
             //}
 
-            subClosureCol = new ClosureCollection(((List<Closure>)Items).GetRange(index, count));
+            var subClosureCol = new ClosureCollection(((List<Closure>) Items).GetRange(index, count));
 
             return subClosureCol;
         }
@@ -67,73 +63,73 @@
             return GetRange(index, Count - index);
         }
         #endregion
-        
+
         #region Find & Index
 
         public bool Exists(Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).Exists(match);
+            return ((List<Closure>) Items).Exists(match);
         }
 
         public Closure Find(Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).Find(match);
+            return ((List<Closure>) Items).Find(match);
         }
         public Closure FindLast(Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindLast(match);
+            return ((List<Closure>) Items).FindLast(match);
         }
 
         public int FindIndex(int startIndex, int count, Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindIndex(startIndex, count, match);
+            return ((List<Closure>) Items).FindIndex(startIndex, count, match);
         }
         public int FindIndex(int startIndex, Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindIndex(startIndex, match);
+            return ((List<Closure>) Items).FindIndex(startIndex, match);
         }
         public int FindIndex(Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindIndex(match);
+            return ((List<Closure>) Items).FindIndex(match);
         }
 
         public int FindLastIndex(int startIndex, int count, Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindLastIndex(startIndex, count, match);
+            return ((List<Closure>) Items).FindLastIndex(startIndex, count, match);
         }
         public int FindLastIndex(int startIndex, Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindLastIndex(startIndex, match);
+            return ((List<Closure>) Items).FindLastIndex(startIndex, match);
         }
         public int FindLastIndex(Predicate<Closure> match)
         {
-            return ((List<Closure>)Items).FindLastIndex(match);
+            return ((List<Closure>) Items).FindLastIndex(match);
         }
 
         public int IndexOf(Closure item, int index, int count)
         {
-            return ((List<Closure>)Items).IndexOf(item, index, count);
+            return ((List<Closure>) Items).IndexOf(item, index, count);
         }
         public int IndexOf(Closure item, int index)
         {
-            return ((List<Closure>)Items).IndexOf(item, index);
+            return ((List<Closure>) Items).IndexOf(item, index);
         }
         new public int IndexOf(Closure item)
         {
-            return ((List<Closure>)Items).IndexOf(item);
+            return ((List<Closure>) Items).IndexOf(item);
         }
 
         public int LastIndexOf(Closure item, int index, int count)
         {
-            return ((List<Closure>)Items).LastIndexOf(item, index, count);
+            return ((List<Closure>) Items).LastIndexOf(item, index, count);
         }
         public int LastIndexOf(Closure item, int index)
         {
-            return ((List<Closure>)Items).LastIndexOf(item, index);
+            return ((List<Closure>) Items).LastIndexOf(item, index);
         }
         public int LastIndexOf(Closure item)
         {
-            return ((List<Closure>)Items).LastIndexOf(item);
+            return ((List<Closure>) Items).LastIndexOf(item);
         }
 
         #endregion
@@ -147,14 +143,14 @@
 
         public override String ToString()
         {
-            StringBuilder strBuild = new StringBuilder();
+            var strBuild = new StringBuilder();
             foreach (Closure closer in this)
             {
                 strBuild.Append(closer);
                 strBuild.AppendLine();
             }
             return strBuild.ToString();
-        } 
+        }
         #endregion
 
         #region ISet Members
@@ -181,16 +177,16 @@
 
         #region Static Methods
 
-        public static implicit operator ClosureCollection(Closure closure) { return new ClosureCollection(new Closure[] { closure }); }
+        public static implicit operator ClosureCollection(Closure closure) { return new ClosureCollection(new[] { closure }); }
         public static implicit operator ClosureCollection(Closure[] arrClosure) { return new ClosureCollection(new List<Closure>(arrClosure)); }
 
-        public static explicit operator Closure[](ClosureCollection closureCol) { return ((List<Closure>)closureCol.Items).ToArray(); }
+        public static explicit operator Closure[](ClosureCollection closureCol) { return ((List<Closure>) closureCol.Items).ToArray(); }
 
         public static ClosureCollection operator +(ClosureCollection closureCol1, ClosureCollection closureCol2)
         {
             if (closureCol1 == default(ClosureCollection)) return closureCol2;
             if (closureCol2 == default(ClosureCollection)) return closureCol1;
-            ClosureCollection combine = new ClosureCollection();
+            var combine = new ClosureCollection();
             combine.AddRange(closureCol1);
             combine.AddRange(closureCol2);
             //combine.RemoveRedundancy();
@@ -202,18 +198,24 @@
             if (closureCol1 == default(ClosureCollection)) return default(ClosureCollection);
             if (closureCol2 == default(ClosureCollection)) return new ClosureCollection(closureCol1);
 
-            int common = 0;
-            ClosureCollection remove = new ClosureCollection(closureCol1);
-            foreach (Closure closure in closureCol2)
+            var common = 0;
+            var remove = new ClosureCollection(closureCol1);
+            //foreach (var closure in closureCol2)
+            //{
+            //    var index =
+            //        //closureCol1.FindIndex(common, (Closure clr) => (clr == closure));
+            //        closureCol1.IndexOf(closure, common);
+            //    if (index != -1)
+            //    {
+            //        remove.RemoveAt(index - common);
+            //        ++common;
+            //    }
+            //}
+
+            foreach (var index in closureCol2.Select(closure => closureCol1.IndexOf(closure, common)).Where(index => index != -1))
             {
-                int index =
-                    //closureCol1.FindIndex(common, (Closure clr) => (clr == closure));
-                    closureCol1.IndexOf(closure, common);
-                if (index != -1)
-                {
-                    remove.RemoveAt(index - common);
-                    ++common;
-                }
+                remove.RemoveAt(index - common);
+                ++common;
             }
             return remove;
         }

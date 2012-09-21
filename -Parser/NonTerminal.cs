@@ -8,11 +8,9 @@ namespace Parser
             : base(title)
         { }
 
-        public NonTerminal()
-            : base()
-        { }
+        public NonTerminal() { }
 
-        public NonTerminal(NonTerminal nonTerminal)
+        public NonTerminal(Entity nonTerminal)
             : base(nonTerminal)
         { }
 
