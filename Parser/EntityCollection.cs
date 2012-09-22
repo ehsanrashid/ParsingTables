@@ -7,8 +7,6 @@ namespace Parser
 {
     public sealed class EntityCollection<T> : Collection<T>, ISet where T : Entity
     {
-        #region Constructors
-
         public EntityCollection() { }
 
         public EntityCollection(IList<T> list)
@@ -17,14 +15,11 @@ namespace Parser
         public EntityCollection(EntityCollection<T> entityCol)
             : base(entityCol.Items) { }
 
-        #endregion
 
         public List<T> Entities
         {
             get { return Items as List<T>; }
         }
-
-        #region Range
 
         public EntityCollection<T> GetRange(int index, int count)
         {
@@ -35,7 +30,17 @@ namespace Parser
 
         public EntityCollection<T> GetRange(int index) { return GetRange(index, Count - index); }
 
-        #endregion
+
+        public bool Equals(EntityCollection<T> entityCol) { return (this == entityCol); }
+
+        public bool NotEquals(EntityCollection<T> entityCol)
+        {
+            return !Equals(entityCol); //(this != entityCol);
+        }
+
+        public bool Equals(params T[] arrEntity) { return Equals(new EntityCollection<T>(arrEntity)); }
+
+        public bool NotEquals(params T[] arrEntity) { return !Equals(arrEntity); }
 
         #region ISet Members
 
@@ -51,17 +56,6 @@ namespace Parser
         }
 
         #endregion
-
-        public bool Equals(EntityCollection<T> entityCol) { return (this == entityCol); }
-
-        public bool NotEquals(EntityCollection<T> entityCol)
-        {
-            return !Equals(entityCol); //(this != entityCol);
-        }
-
-        public bool Equals(params T[] arrEntity) { return Equals(new EntityCollection<T>(arrEntity)); }
-
-        public bool NotEquals(params T[] arrEntity) { return !Equals(arrEntity); }
 
         #region Overrided
 

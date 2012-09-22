@@ -12,8 +12,6 @@ namespace Parser
         // RightHand Side (Product)
         public EntityCollection<Entity> Product { get; private set; }
 
-        #region Constructors
-
         public Production(NonTerminal producer, EntityCollection<Entity> product)
         {
             Producer = producer;
@@ -25,8 +23,6 @@ namespace Parser
         public Production(EntityCollection<Entity> product) : this(default(NonTerminal), product) { }
 
         public Production() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
-
-        #endregion
 
 
         public int Count
@@ -77,7 +73,7 @@ namespace Parser
 
     public class SLRProduction : Production
     {
-        protected int _positionDot;
+        protected int _DotPosition;
 
         public SLRProduction(NonTerminal producer, EntityCollection<Entity> product, int posDot)
             : base(producer, product) { DotPosition = posDot; }
@@ -89,15 +85,15 @@ namespace Parser
 
         public int DotPosition
         {
-            get { return _positionDot; }
+            get { return _DotPosition; }
             set
             {
                 if (0 > value || value > Count) throw new IndexOutOfRangeException("Dot Out of Bounds");
-                _positionDot = value;
+                _DotPosition = value;
             }
         }
 
-        public bool Equals(SLRProduction prod) { return base.Equals(prod) && (_positionDot == prod.DotPosition); }
+        public bool Equals(SLRProduction prod) { return base.Equals(prod) && (_DotPosition == prod.DotPosition); }
 
         public bool NotEquals(SLRProduction prod) { return !Equals(prod); }
 
@@ -118,7 +114,8 @@ namespace Parser
 
     public class CLRProduction : SLRProduction
     {
-        readonly EntityCollection<Terminal> _lookAheads;
+        public EntityCollection<Terminal> LookAheads { get; private set; }
+
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol, int posDot,
                              EntityCollection<Terminal> lookAheads)
@@ -129,11 +126,11 @@ namespace Parser
                 {
                     if (null != terminal) continue;
 
-                    _lookAheads = new EntityCollection<Terminal>((EntityCollection<Terminal>) ((Terminal) "$"));
+                    LookAheads = new EntityCollection<Terminal>((EntityCollection<Terminal>) ((Terminal) "$"));
                     return;
                 }
 
-            _lookAheads = lookAheads;
+            LookAheads = lookAheads;
         }
 
         public CLRProduction(NonTerminal nonTerm, EntityCollection<Entity> entityCol,
@@ -145,12 +142,8 @@ namespace Parser
 
         public CLRProduction() : this(new NonTerminal(), new EntityCollection<Entity>()) { }
 
-        public EntityCollection<Terminal> LookAheads
-        {
-            get { return _lookAheads; }
-        }
 
-        public bool Equals(CLRProduction prod) { return base.Equals(prod) && (_lookAheads == prod.LookAheads); }
+        public bool Equals(CLRProduction prod) { return base.Equals(prod) && (LookAheads == prod.LookAheads); }
 
         public bool NotEquals(CLRProduction prod) { return !Equals(prod); }
 
@@ -160,7 +153,7 @@ namespace Parser
             sb.Append(", ");
 
             var first = true;
-            foreach (var terminal in _lookAheads)
+            foreach (var terminal in LookAheads)
             {
                 if (first) first = false;
                 else sb.Append(" | "); // Entity Sep

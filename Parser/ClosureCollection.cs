@@ -7,8 +7,6 @@ namespace Parser
 {
     public sealed class ClosureCollection : Collection<Closure>, ISet
     {
-        #region Constructors
-
         public ClosureCollection() { }
 
         public ClosureCollection(IList<Closure> list)
@@ -17,14 +15,10 @@ namespace Parser
         public ClosureCollection(ClosureCollection closureCol)
             : base(closureCol.Items) { }
 
-        #endregion
-
         public List<Closure> Closures
         {
             get { return Items as List<Closure>; }
         }
-
-        #region Range
 
         public ClosureCollection GetRange(int index, int count)
         {
@@ -34,8 +28,6 @@ namespace Parser
         }
 
         public ClosureCollection GetRange(int index) { return GetRange(index, Count - index); }
-
-        #endregion
 
         public bool Equals(ClosureCollection closureCol) { return (this == closureCol); }
 
