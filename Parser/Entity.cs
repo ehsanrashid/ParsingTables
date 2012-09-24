@@ -13,22 +13,8 @@ namespace Parser
         protected Entity(IEntity entity)
             : this(entity.Title) { }
 
-        #region ICloneable Members
-
-        Object ICloneable.Clone()
-        {
-            return MemberwiseClone();
-        }
-
-        #endregion
 
         //~Entity() { }
-
-        #region IEntity Members
-
-        public string Title { get; set; }
-
-        #endregion
 
         public bool Equals(Entity entity)
         {
@@ -55,6 +41,21 @@ namespace Parser
         public override String ToString()
         {
             return Title;
+        }
+
+        #endregion
+
+        #region IEntity Members
+
+        public String Title { get; set; }
+
+        #endregion
+
+        #region ICloneable Members
+
+        Object ICloneable.Clone()
+        {
+            return MemberwiseClone();
         }
 
         #endregion

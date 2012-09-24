@@ -7,8 +7,6 @@ namespace Parser
 {
     public sealed class ClosureCollection : Collection<Closure>, ISet
     {
-        #region Constructors
-
         public ClosureCollection() { }
 
         public ClosureCollection(IList<Closure> list)
@@ -17,14 +15,10 @@ namespace Parser
         public ClosureCollection(ClosureCollection closureCol)
             : base(closureCol.Items) { }
 
-        #endregion
-
         public List<Closure> Closures
         {
             get { return Items as List<Closure>; }
         }
-
-        #region Range
 
         public ClosureCollection GetRange(int index, int count)
         {
@@ -34,8 +28,6 @@ namespace Parser
         }
 
         public ClosureCollection GetRange(int index) { return GetRange(index, Count - index); }
-
-        #endregion
 
         public bool Equals(ClosureCollection closureCol) { return (this == closureCol); }
 
@@ -59,7 +51,8 @@ namespace Parser
 
         #region Overrided
 
-        public override bool Equals(Object obj) { return (obj is ClosureCollection) ? Equals(obj as ClosureCollection) : base.Equals(obj); }
+        public override bool Equals(Object obj) 
+        { return (obj is ClosureCollection) ? Equals(obj as ClosureCollection) : base.Equals(obj); }
 
         public override int GetHashCode() { return ToString().GetHashCode() ^ base.GetHashCode(); }
 
@@ -125,7 +118,8 @@ namespace Parser
 
             if (closureCol1.Count != closureCol2.Count) return false;
 
-            for (var index = 0; index < closureCol1.Count; ++index) if (closureCol1[index] != closureCol2[index]) return false;
+            for (var index = 0; index < closureCol1.Count; ++index)
+                if (closureCol1[index] != closureCol2[index]) return false;
             return true;
         }
 
