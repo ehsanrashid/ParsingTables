@@ -158,7 +158,7 @@ namespace Parser
         public static bool operator ==(EntityCollection<T> entityCol, Entity entity)
         {
             if (ReferenceEquals(null, entityCol) || ReferenceEquals(null, entity)) return false;
-            return (entityCol.Count == 1) && entityCol[0] == entity;
+            return (1 == entityCol.Count) && entityCol[0] == entity;
         }
 
         public static bool operator !=(EntityCollection<T> entityCol, Entity entity)
